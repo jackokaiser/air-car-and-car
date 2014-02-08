@@ -1,0 +1,11 @@
+h1 Register new car
+form(name='addNewCar')
+  div(ng-show='message') {{message}}
+  div Car name:
+    input(name='carName', ng-model='car.name', required)
+  div Location:
+    input(name='carLocation', ng-model='car.location', required)
+  div Availabilities:
+    input(name='carAvailable', ng-model='car.available', required)
+  div
+    button(ng-click='addCar()', ng-disabled='!addNewCar.$valid') Submit
