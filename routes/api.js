@@ -25,22 +25,25 @@ exports.cars = function (req, res) {
     // query db to get car available
     // at the right place and on the right time
 
+    var query = req.query;
+    console.log('Query: '+query.location+' '+query.dateFrom+' '+query.dateTo);
+
     // monkey patched
     var filteredCar = cars.filter(function(c) {
         var carAccepted =
-            // car in the right location
-            (c.location === req.query.location)
+            // car in the right location or no loc
+            ((!query.location) || (c.location === query.location))
             &&
-            // car available before user request it
-            (c.dateFrom.getTime() <= req.query.dateFrom)
+            // car available before user request it or no date
+            ((!query.dateFrom) || (c.dateFrom.getTime() <= query.dateFrom))
             &&
             // car still available after user request it
-            (c.dateTo.getTime() >= req.query.dateTo);
+            ((!query.dateTo) || (c.dateTo.getTime() >= query.dateTo));
 
         return carAccepted;
     });
     res.json( {
         cars : filteredCar
     });
-    console.log('available car sent');
+    console.log('available car sent: '+filteredCar.length);
 };

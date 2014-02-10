@@ -1,22 +1,37 @@
 .row
-  .col-md-3
-  form(name='carsQuery', role='form')
-    .col-md-6
-      span.col-md-3
-        input(name='location', ng-model='locationQuery',type="text",class="form-control", placeholder='Where?', required)
-      span.col-md-3
-        input(name='dateFrom', ng-model='dateQueryFrom',type="text",class="form-control", placeholder='From?', required)
-      span.col-md-3
-        input(name='dateTo', ng-model='dateQueryTo',type="text",class="form-control", placeholder='To?', required)
-      span.col-md-3
-      button.btn.btn-default(type="submit",ng-click='carQuery()', ng-disabled='!carsQuery.$valid') Submit
+  .col-md-9
+    .row
+      .col-md-3
+      form(name='carsQuery', role='form')
+        .col-md-6
+          span.col-xs-3
+            input#addresspicker(name='location', ng-model='locationQuery',type="text",class="form-control", placeholder='Where?', required)
+          span.col-xs-3
+            input(name='dateFrom', ng-model='dateQueryFrom',type="text",class="form-control", placeholder='From?', required)
+          span.col-xs-3
+            input(name='dateTo', ng-model='dateQueryTo',type="text",class="form-control", placeholder='To?', required)
+          span.col-xs-3
+          button.btn.btn-default(type="submit",ng-click='carQuery()', ng-disabled='!carsQuery.$valid') Submit
+
+    br
+    .row
+      .col-md-12
+        div(ng-show='message') {{message}}
+        div.well(ng-repeat='car in cars')
+          p {{car.name}}
+          p {{car.location}}
+          // p {{car.dateFrom}}
+          // p {{car.dateTo}}
+
+  // debug: print the database
+  .col-md-3.well
+    h4 Database
+    div.well(ng-repeat='car in carsDB')
+      p {{car.name}}
+      p {{car.location}}
+      p {{car.dateFrom}} to {{car.dateTo}}
+
+
+
 
 br
-
-.row
-  div(ng-show='message') {{message}}
-  div.well(ng-repeat='car in cars')
-    p {{car.name}}
-    p {{car.location}}
-    // p {{car.dateFrom}}
-    // p {{car.dateTo}}

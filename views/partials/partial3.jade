@@ -1,27 +1,28 @@
 h1 Register new car
 form(name='addNewCar', role='form')
   div(ng-show='message') {{message}}
-  .input-group.col-lg-3
+  .input-group.col-md-3
     span.input-group-addon Car name
     input(name='carName', ng-model='car.name',type="text",class="form-control", required)
 
   br
-  .input-group.col-lg-3
+  .input-group.col-md-3
     span.input-group-addon Location
     input(name='carLocation', ng-model='car.location',type="text",class="form-control", required)
 
   br
   h4 Availabilities
   br
-  row-fluid
-    .col-lg-2
+  row
+    .col-md-2
       .input-group
         span.input-group-addon From
         input(name='carAvailable', ng-model='car.available', type="text",class="form-control",required)
-    .col-lg-2
+    .col-md-2
       .input-group
         span.input-group-addon To
         input(name='carAvailable', ng-model='car.available', type="text",class="form-control",required)
 
   br
-  button.btn.btn-default(type="submit",ng-click='addCar()', ng-disabled='!addNewCar.$valid') Submit
+  row
+    button.btn.btn-default(type="submit",ng-click='addCar()', ng-disabled='!addNewCar.$valid') Submit

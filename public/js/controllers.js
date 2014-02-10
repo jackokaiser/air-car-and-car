@@ -3,6 +3,19 @@
 /* Controllers */
 
 angular.module('myApp.controllers', [])
+    .controller('NavCtrl', function ($scope) {
+        $scope.brand = 'AirCnC';
+        $scope.links = [
+            {name: 'cars', url: '/cars'},
+            {name: 'map', url: '/map'},
+            {name: 'newcar', url: '/newcar'}
+        ];
+        $scope.selected = 0;
+        $scope.selectLink = function(i) {
+            $scope.selected=i;
+        };
+
+    })
     .controller('AppCtrl', function ($scope, $http) {
 
         $http({
@@ -18,10 +31,22 @@ angular.module('myApp.controllers', [])
 
     })
     .controller('MyCtrl1', function ($scope, $http) {
+        // debugging : get database
+        $http({
+            method: 'GET',
+            url: '/api/cars'
+        }).success(function (data, status, headers, config) {
+
+            $scope.carsDB = data.cars;
+        }).error(function (data, status, headers, config) {
+            throw new Error('Cannot get cars DB!');
+        });
+
+
         $scope.message = '';
         $scope.carQuery = function ()
         {
-            // smith query
+            // iron query
             var query = {
                 dateFrom : new Date($scope.dateQueryFrom).getTime(),
                 dateTo : new Date($scope.dateQueryTo).getTime(),
@@ -32,16 +57,18 @@ angular.module('myApp.controllers', [])
                 method: 'GET',
                 url: '/api/cars',
                 params: query
-            })
-                .success(function (data, status, headers, config) {
-                    if (data.cars.length > 0)
-                        $scope.cars = data.cars;
-                    else
-                        $scope.message = 'Sorry, no car available for that query';
-                })
-                .error(function (data, status, headers, config) {
-                    throw new Error('Cannot get cars!');
-                });
+            }).success(function (data, status, headers, config) {
+                console.log("Success! received %d cars from server", data.cars.length);
+                if (data.cars.length > 0) {
+                    $scope.cars = data.cars;
+                    $scope.message = '';
+                }
+                else {
+                    $scope.message = 'Sorry, no car available for that query';
+                }
+            }).error(function (data, status, headers, config) {
+                throw new Error('Cannot get cars!');
+            });
         };
     })
     .controller('MyCtrl2', function ($scope) {
