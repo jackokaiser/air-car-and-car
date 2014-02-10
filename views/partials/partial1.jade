@@ -6,12 +6,14 @@
         .col-md-6
           span.col-xs-3
             input#addresspicker(name='location', ng-model='locationQuery',type="text",class="form-control", placeholder='Where?', required)
+          span.col-xs-6
+            #datepicker.input-daterange.input-group
+              input(name='dateFrom', ng-model='dateQueryFrom',type="text",class="form-control", placeholder='start', data-provide='date-picker',required)
+              span.input-group-addon to
+              input(name='dateTo', ng-model='dateQueryTo',type="text",class="form-control", placeholder='end', required)
+
           span.col-xs-3
-            input(name='dateFrom', ng-model='dateQueryFrom',type="text",class="form-control", placeholder='From?', required)
-          span.col-xs-3
-            input(name='dateTo', ng-model='dateQueryTo',type="text",class="form-control", placeholder='To?', required)
-          span.col-xs-3
-          button.btn.btn-default(type="submit",ng-click='carQuery()', ng-disabled='!carsQuery.$valid') Submit
+          button.btn.btn-default(type="submit",ng-click='carQuery()') Submit
 
     br
     .row
@@ -30,8 +32,3 @@
       p {{car.name}}
       p {{car.location}}
       p {{car.dateFrom}} to {{car.dateTo}}
-
-
-
-
-br
