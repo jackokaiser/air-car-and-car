@@ -1,8 +1,9 @@
-var Car = function Car (name, location, available)
+var Car = function Car (name, location, dateFrom, dateTo)
 {
     this.name = name;
     this.location = location;
-    this.available = available
+    this.dateFrom = dateFrom;
+    this.dateTo = dateTo;
     return this;
 };
 

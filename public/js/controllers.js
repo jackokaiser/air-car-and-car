@@ -18,18 +18,31 @@ angular.module('myApp.controllers', [])
 
     })
     .controller('MyCtrl1', function ($scope, $http) {
-        $http({
-            method: 'GET',
-            url: '/api/cars'
-        })
-            .success(function (data, status, headers, config) {
-                $scope.cars = data.cars;
+        $scope.message = '';
+        $scope.carQuery = function ()
+        {
+            // smith query
+            var query = {
+                dateFrom : new Date($scope.dateQueryFrom).getTime(),
+                dateTo : new Date($scope.dateQueryTo).getTime(),
+                location : $scope.locationQuery
+            };
+            // get request to server
+            $http({
+                method: 'GET',
+                url: '/api/cars',
+                params: query
             })
-            .error(function (data, status, headers, config) {
-                throw new Error('Cannot get cars!');
-            });
-        $scope.test = [ 1,2,3,4,5 ];
-
+                .success(function (data, status, headers, config) {
+                    if (data.cars.length > 0)
+                        $scope.cars = data.cars;
+                    else
+                        $scope.message = 'Sorry, no car available for that query';
+                })
+                .error(function (data, status, headers, config) {
+                    throw new Error('Cannot get cars!');
+                });
+        };
     })
     .controller('MyCtrl2', function ($scope) {
         // write Ctrl here
