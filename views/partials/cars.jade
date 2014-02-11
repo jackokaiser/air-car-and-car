@@ -18,9 +18,9 @@
 
     br
     .row
-      .col-lg-2
+      .col-lg-1
       .col-xs-10
-        div(ng-show='message') {{message}}
+        .alert.alert-danger(ng-show='message') {{message}}
         div.well(ng-repeat='car in cars')
           p {{car.name}}
           p {{car.location}}
@@ -28,7 +28,7 @@
           // p {{car.dateTo}}
 
   // debug: print the database
-  .col-xs-3.well
+  .col-sm-3.well
     h4 Database
     div.well(ng-repeat='car in carsDB')
       p {{car.name}}

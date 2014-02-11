@@ -28,26 +28,16 @@ angular.module('myApp.controllers', [])
         // watch path
         // care: isn't property of the scope
         $scope.$watch(function(){
-            return $location.path()
+            return $location.path();
         }, updateLink);
 
     })
-    .controller('AppCtrl', function ($scope, $http) {
-
-        $http({
-            method: 'GET',
-            url: '/api/name'
-        })
-            .success(function (data, status, headers, config) {
-                $scope.name = data.name;
-            })
-            .error(function (data, status, headers, config) {
-                $scope.name = 'Error!';
-            });
+    .controller('RootCtrl', function ($scope, $http) {
 
     })
-    .controller('MyCtrl1', function ($scope, $http) {
+    .controller('CarCtrl', function ($scope, $http) {
         // debugging : get database
+        console.log('CAR CTRL INstance');
         $http({
             method: 'GET',
             url: '/api/cars'
@@ -69,10 +59,11 @@ angular.module('myApp.controllers', [])
             $scope.cars = null;
             // forge query
             var query = {
-                dateFrom : new Date($scope.dateQueryFrom),
-                dateTo : new Date($scope.dateQueryTo),
+                dateFrom : new Date($scope.dateQueryFrom).getTime(),
+                dateTo : new Date($scope.dateQueryTo).getTime(),
                 location : $scope.locationQuery
             };
+            console.log(query);
             // get request to server
             $http({
                 method: 'GET',
@@ -92,10 +83,10 @@ angular.module('myApp.controllers', [])
             });
         };
     })
-    .controller('MyCtrl2', function ($scope) {
+    .controller('MapCtrl', function ($scope) {
         // write Ctrl here
     })
-    .controller('MyCtrl3', function ($scope,$http) {
+    .controller('NewCarCtrl', function ($scope,$http) {
         // write Ctrl here
         $scope.message='';
         $scope.car = {};

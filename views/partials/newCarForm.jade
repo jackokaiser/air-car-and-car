@@ -1,0 +1,31 @@
+.row
+  h1 Register new car
+
+br
+.row
+  form(name='addNewCar', role='form')
+    .col-md-4
+      .row
+        h4 Car informations
+        .input-group
+          span.input-group-addon Car name
+          input(name='carName', ng-model='car.name',type="text",class="form-control", required)
+      br
+      .row
+        .input-group
+          span.input-group-addon Location
+          input(name='carLocation', ng-model='car.location',type="text",class="form-control", required)
+      br
+      .row
+        h4 Availabilities
+        .input-daterange.input-group
+          input(datepicker, name='dateFrom', ng-model='$parent.car.dateFrom',type="text",class="form-control", placeholder='start',required)
+          span.input-group-addon to
+          input(datepicker, name='dateTo', ng-model='$parent.car.dateTo',type="text",class="form-control", placeholder='end', required)
+
+br
+.row
+  .col-md-1
+    button.btn.btn-default(type="submit",ng-click='addCar()', ng-disabled='!addNewCar.$valid') Submit
+  .col-md-3
+    .alert.alert-success(ng-show='message') {{message}}

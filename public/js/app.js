@@ -11,16 +11,16 @@ angular.module('myApp', [
     .config(function ($routeProvider, $locationProvider) {
         $routeProvider
             .when('/cars', {
-                templateUrl: 'partials/partial1',
-                controller: 'MyCtrl1'
+                templateUrl: 'partials/cars',
+                controller: 'CarCtrl'
             })
             .when('/map', {
-                templateUrl: 'partials/partial2',
-                controller: 'MyCtrl2'
+                templateUrl: 'partials/maps',
+                controller: 'MapCtrl'
             })
             .when('/newcar', {
-                templateUrl: 'partials/partial3',
-                controller: 'MyCtrl3'
+                templateUrl: 'partials/newCarForm',
+                controller: 'NewCarCtrl'
             })
             .otherwise({
                 redirectTo: '/cars'

@@ -1,4 +1,8 @@
 * daterange - angular js directive instead of datepicker
-* mongoose
-* push
 * address, typeahead ?
+* WTF: no $le and $ge for dates. Find a solution, use moment.js ?
+
+* connect to minify
+* user session
+
+* scripts include / cdn when prod
