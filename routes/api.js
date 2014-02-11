@@ -1,4 +1,4 @@
-var CarModel = require('../model/car').CarModel;
+var CarModel = require('../model/db').CarModel;
 
 /*
  * Serve JSON to our AngularJS client

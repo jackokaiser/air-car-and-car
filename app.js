@@ -4,7 +4,6 @@
 
 var express = require('express'),
 routes = require('./routes'),
-db = require('./model/db'),
 api = require('./routes/api'),
 http = require('http'),
 path = require('path');

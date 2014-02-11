@@ -1,9 +1,19 @@
 // bring mongoose into the project
 var mongoose = require( 'mongoose' );
 
-// build the connection string
-var dbURI = 'mongodb://localhost/MongoosePM';
+///////////////
+///////////////// Init the database
+///////////////
+var dbURI;
+if (process.env.DATABASE_URL) {
+    dbURI = process.env.DATABASE_URL;
+}
+else {
+    // build the connection string
+    dbURI = 'mongodb://localhost/MongoosePM';
+}
 
+// connect and init
 // create the database connection
 mongoose.connect(dbURI);
 
@@ -26,4 +36,15 @@ process.on('SIGINT', function () {
     });
 });
 
-exports.mongoose = mongoose;
+///////////////
+///////////////// Create Schema
+///////////////
+var carSchema = new mongoose.Schema({
+    name : String,
+    location : String,
+    dateFrom : Date,
+    dateTo : Date
+});
+
+// exports models
+exports.CarModel = mongoose.model('Car', carSchema);

@@ -1,7 +1,9 @@
 'use strict';
 
-/* Controllers */
+// Models
+var cars;
 
+/* Controllers */
 Array.prototype.findIndex = Array.prototype.findIndex ||
     function (callback) {
         for (var i=0;i<this.length;i++)
@@ -37,7 +39,7 @@ angular.module('myApp.controllers', [])
     })
     .controller('CarCtrl', function ($scope, $http) {
         // debugging : get database
-        console.log('CAR CTRL INstance');
+        $scope.cars = cars;
         $http({
             method: 'GET',
             url: '/api/cars'
@@ -56,7 +58,7 @@ angular.module('myApp.controllers', [])
         $scope.carQuery = function ()
         {
             // drop previous cars
-            $scope.cars = null;
+            cars = null;
             // forge query
             var query = {
                 dateFrom : new Date($scope.dateQueryFrom).getTime(),
@@ -72,14 +74,17 @@ angular.module('myApp.controllers', [])
             }).success(function (data, status, headers, config) {
                 console.log("Success! received %d cars from server", data.cars.length);
                 if (data.cars.length > 0) {
-                    $scope.cars = data.cars;
+                    cars = data.cars;
                     $scope.message = '';
                 }
                 else {
                     $scope.message = 'Sorry, no car available for that query';
                 }
+                $scope.cars = cars;
             }).error(function (data, status, headers, config) {
                 throw new Error('Cannot get cars!');
+                cars = null;
+                $scope.cars = cars;
             });
         };
     })
