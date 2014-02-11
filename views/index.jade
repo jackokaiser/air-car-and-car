@@ -16,13 +16,10 @@ block navigation
             a(href='{{link.url}}') {{link.name}}
 
 
+// client side rendering via angular.js
 block body
   div(ng-controller='RootCtrl')
     div(ng-view)
-    div
-      | Angular seed app: v
-      span(app-version)
-
 
 
 block scripts

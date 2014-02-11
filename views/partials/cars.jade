@@ -21,11 +21,22 @@
       .col-lg-1
       .col-xs-10
         .alert.alert-danger(ng-show='message') {{message}}
-        div.well(ng-repeat='car in cars')
-          p {{car.name}}
-          p {{car.location}}
-          // p {{car.dateFrom}}
-          // p {{car.dateTo}}
+        .row
+          div(ng-repeat='car in cars')
+            .col-md-4
+              .well.well-sm
+                .row
+                  .col-xs-8
+                    h3 {{car.name | lowercase}}
+                    h4 {{car.location | lowercase}}
+                  .col-xs-4
+                    h4
+                      span.label.label-danger Price
+                  .col-xs-12
+                    p {{car.dateFrom | date:'dd/MM/yyyy'}} - {{car.dateTo | date:'dd/MM/yyyy'}}
+
+
+
 
   // debug: print the database
   .col-sm-3.well
