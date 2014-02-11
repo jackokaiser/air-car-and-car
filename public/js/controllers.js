@@ -2,18 +2,34 @@
 
 /* Controllers */
 
+Array.prototype.findIndex = Array.prototype.findIndex ||
+    function (callback) {
+        for (var i=0;i<this.length;i++)
+        {
+            if(callback(this[i],i))
+                return i;
+        }
+    };
+
 angular.module('myApp.controllers', [])
-    .controller('NavCtrl', function ($scope) {
+    .controller('NavCtrl', function ($scope,$location) {
         $scope.brand = 'AirCnC';
         $scope.links = [
             {name: 'cars', url: '/cars'},
             {name: 'map', url: '/map'},
             {name: 'newcar', url: '/newcar'}
         ];
-        $scope.selected = 0;
-        $scope.selectLink = function(i) {
-            $scope.selected=i;
+        var updateLink = function() {
+            // find index of the link in the array
+            $scope.selected=$scope.links.findIndex(function(elem) {
+                return elem.url === $location.path();
+            });
         };
+        // watch path
+        // care: isn't property of the scope
+        $scope.$watch(function(){
+            return $location.path()
+        }, updateLink);
 
     })
     .controller('AppCtrl', function ($scope, $http) {
@@ -36,8 +52,12 @@ angular.module('myApp.controllers', [])
             method: 'GET',
             url: '/api/cars'
         }).success(function (data, status, headers, config) {
-
+            data.cars.forEach(function(c) {
+                c.dateFrom = Date.parse(c.dateFrom);
+                c.dateTo = Date.parse(c.dateTo);
+            });
             $scope.carsDB = data.cars;
+
         }).error(function (data, status, headers, config) {
             throw new Error('Cannot get cars DB!');
         });
@@ -49,8 +69,8 @@ angular.module('myApp.controllers', [])
             $scope.cars = null;
             // forge query
             var query = {
-                dateFrom : new Date($scope.dateQueryFrom).getTime(),
-                dateTo : new Date($scope.dateQueryTo).getTime(),
+                dateFrom : new Date($scope.dateQueryFrom),
+                dateTo : new Date($scope.dateQueryTo),
                 location : $scope.locationQuery
             };
             // get request to server
@@ -75,14 +95,25 @@ angular.module('myApp.controllers', [])
     .controller('MyCtrl2', function ($scope) {
         // write Ctrl here
     })
-    .controller('MyCtrl3', function ($scope,$location) {
+    .controller('MyCtrl3', function ($scope,$http) {
         // write Ctrl here
         $scope.message='';
+        $scope.car = {};
         $scope.addCar = function()
         {
             // push to server
-            $scope.message = 'Thanks, the car ' + $scope.car.name +
-                ' has been registered!';
+            var optionsObj = {
+                method : 'POST',
+                url : '/api/cars',
+                data : $scope.car
+            };
+            $http(optionsObj).success(function (data, status, headers, config) {
+                $scope.message = 'Thanks, the car ' + config.data.name +
+                    ' has been registered!';
+            }).error(function (data, status, headers, config) {
+                $scope.message = 'An error has occured while '+
+                    'registering the car ' + config.data.name;
+            });
             // $location.url('/');
         };
 

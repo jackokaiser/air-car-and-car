@@ -1,5 +1,5 @@
 extends layout
-
+a
 block navigation
   div(ng-controller='NavCtrl')
     .navbar.navbar-default.navbar-fixed-top(role="navigation")
@@ -13,7 +13,7 @@ block navigation
           a.navbar-brand(href='#') {{brand}}
         #bs-navbar.collapse.navbar-collapse
           ul.nav.navbar-nav
-            li(ng-repeat='link in links', ng-click='selectLink($index)', ng-class='{active: $index == selected}')
+            li(ng-repeat='link in links', ng-class='{active: $index == selected}')
               a(href='{{link.url}}') {{link.name}}
 
 

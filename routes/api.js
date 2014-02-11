@@ -1,49 +1,58 @@
-var Car = require('../models/car').Car;
-
-// monkey patch car db
-var cars = [
-    new Car('Ford Falcon', 'Melbourne', new Date('October 13, 1975'), new Date('February 20, 2020')),
-    new Car('Mitsubichi', 'Melbourne', new Date('January 22, 2014'),new Date('March 12, 2014')),
-    new Car('Alpha Romeo', 'Sydney', new Date('October 13, 2013'), new Date('December 20, 2015')),
-    new Car('Van', 'Sydney', new Date('September 20, 2013'), new Date('September 25, 2015'))
-];
-
-
+var CarModel = require('../model/car').CarModel;
 
 /*
  * Serve JSON to our AngularJS client
  */
 exports.name = function (req, res) {
-  res.json({
-    name: 'Bob'
-  });
+    res.json({
+        name: 'Bob'
+    });
 };
 
+exports.cars = {};
 
-exports.cars = function (req, res) {
+exports.cars.get = function (req, res) {
     console.log('request for available car received');
     // query db to get car available
     // at the right place and on the right time
 
     var query = req.query;
-    console.log('Query: '+query.location+' '+query.dateFrom+' '+query.dateTo);
+    console.log(query);
+    if(query.dateFrom)
+        query.dateFrom=new Date(Date.parse(dateFrom));
+    if(query.dateTo)
+        query.dateTo=new Date(Date.parse(dateTo));
 
-    // monkey patched
-    var filteredCar = cars.filter(function(c) {
-        var carAccepted =
-            // car in the right location or no loc
-            ((!query.location) || (c.location === query.location))
-            &&
-            // car available before user request it or no date
-            ((!query.dateFrom) || (c.dateFrom.getTime() <= query.dateFrom))
-            &&
-            // car still available after user request it
-            ((!query.dateTo) || (c.dateTo.getTime() >= query.dateTo));
+    console.log(query);
+    CarModel.find(query,function( err, docs) {
+        if (err) {
+            console.log('Error fetching data: '+err);
+            return;
+        }
+        res.json( {
+            cars : docs
+        });
+        console.log('available car sent: '+docs.length);
+    });
 
-        return carAccepted;
+};
+
+exports.cars.post = function (req, res) {
+    console.log('received request to register car: '+
+                req.param('name')+' '+req.param('location')+
+                ' '+req.param('dateFrom')+' '+req.param('dateTo'));
+    CarModel.create({
+        name : req.param('name'),
+        location : req.param('location'),
+        dateFrom : req.param('dateFrom'),
+        dateTo : req.param('dateTo')
+    },function(err,car) {
+        if (err) {
+            console.log('Error saving data: '+err);
+            res.send(500);
+            return;
+        }
+        console.log('Car '+car.name+' successfuly saved');
+        res.send(200);
     });
-    res.json( {
-        cars : filteredCar
-    });
-    console.log('available car sent: '+filteredCar.length);
 };

@@ -1,25 +1,25 @@
 .row
-  .col-md-9
+  .col-sm-9
     .row
-      .col-md-3
+      .col-xs-1
       form(name='carsQuery', role='form')
-        .col-md-6
-          span.col-xs-3
+        .col-md-8
+          span.col-sm-4
             input#addresspicker(name='location', ng-model='locationQuery',type="text",class="form-control", placeholder='Where?', required)
-          span.col-xs-6
+          span.col-sm-5
             .input-daterange.input-group
               input(datepicker, name='dateFrom', ng-model='$parent.dateQueryFrom',type="text",class="form-control", placeholder='start',required)
               span.input-group-addon to
               input(datepicker, name='dateTo', ng-model='$parent.dateQueryTo',type="text",class="form-control", placeholder='end', required)
 
-          span.col-xs-3
-          button.btn.btn-default(type="submit",ng-click='carQuery()') Submit
+          span.col-lg-3
+            button.btn.btn-default(type="submit",ng-click='carQuery()',ng-disabled='!carsQuery.$valid') Submit
 
 
     br
     .row
       .col-lg-2
-      .col-md-10
+      .col-xs-10
         div(ng-show='message') {{message}}
         div.well(ng-repeat='car in cars')
           p {{car.name}}
@@ -28,9 +28,9 @@
           // p {{car.dateTo}}
 
   // debug: print the database
-  .col-md-3.well
+  .col-xs-3.well
     h4 Database
     div.well(ng-repeat='car in carsDB')
       p {{car.name}}
       p {{car.location}}
-      p {{car.dateFrom}} to {{car.dateTo}}
+      p {{car.dateFrom | date:'dd/MM/yyyy'}} to {{car.dateTo | date:'dd/MM/yyyy'}}
