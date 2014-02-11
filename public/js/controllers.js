@@ -42,28 +42,15 @@ angular.module('myApp.controllers', [])
             throw new Error('Cannot get cars DB!');
         });
 
-        var datepickerOpt = {
-            format : 'dd/mm/yyyy',
-            startDate : 'd'
-            // autoclose : true,
-            // clearBtn : true,
-            // todayHighlight : true
-        };
-
-        $('#datepicker').datepicker(datepickerOpt);
-
-        var toDate = function(s) {
-            var t = s.split('/');
-            return new Date(t[2],t[1],t[0]);
-        };
-
         $scope.message = '';
         $scope.carQuery = function ()
         {
+            // drop previous cars
+            $scope.cars = null;
             // forge query
             var query = {
-                dateFrom : toDate($scope.dateQueryFrom).getTime(),
-                dateTo : toDate($scope.dateQueryTo).getTime(),
+                dateFrom : new Date($scope.dateQueryFrom).getTime(),
+                dateTo : new Date($scope.dateQueryTo).getTime(),
                 location : $scope.locationQuery
             };
             // get request to server

@@ -7,17 +7,19 @@
           span.col-xs-3
             input#addresspicker(name='location', ng-model='locationQuery',type="text",class="form-control", placeholder='Where?', required)
           span.col-xs-6
-            #datepicker.input-daterange.input-group
-              input(name='dateFrom', ng-model='dateQueryFrom',type="text",class="form-control", placeholder='start', data-provide='date-picker',required)
+            .input-daterange.input-group
+              input(datepicker, name='dateFrom', ng-model='$parent.dateQueryFrom',type="text",class="form-control", placeholder='start',required)
               span.input-group-addon to
-              input(name='dateTo', ng-model='dateQueryTo',type="text",class="form-control", placeholder='end', required)
+              input(datepicker, name='dateTo', ng-model='$parent.dateQueryTo',type="text",class="form-control", placeholder='end', required)
 
           span.col-xs-3
           button.btn.btn-default(type="submit",ng-click='carQuery()') Submit
 
+
     br
     .row
-      .col-md-12
+      .col-lg-2
+      .col-md-10
         div(ng-show='message') {{message}}
         div.well(ng-repeat='car in cars')
           p {{car.name}}
