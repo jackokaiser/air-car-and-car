@@ -26,6 +26,10 @@ angular.module('myApp', [
                 templateUrl: 'partials/login',
                 controller: 'LoginCtrl'
             })
+            .when('/signup', {
+                templateUrl: 'partials/signup',
+                controller: 'SignupCtrl'
+            })
             .otherwise({
                 redirectTo: '/cars'
             });

@@ -1,44 +1,27 @@
-.row
-  .col-lg-1
-  .col-xs-3
-    .well.well-lg
-      h1 Sign up
-      form(name='signup', role='form')
-        .row
-          h4 User informations
-          .input-group
-            span.input-group-addon Name
-            input(name='userName', ng-model='user.name',type="text",class="form-control", required)
-        br
-        .row
-          .input-group
-            span.input-group-addon Email
-            input(name='userEmail', ng-model='user.email',type="email",class="form-control", required)
-
-        br
-        .row
-          .input-group
-            span.input-group-addon Phone
-            input(name='userPhone', ng-model='user.phone',type="text",class="form-control")
-        br
-        .row
-          button.btn.btn-default(type="submit",ng-click='createUser()', ng-disabled='!signup.$valid') Sign up
-
-  .col-lg-2
-
-  .col-xs-3
-    .well.well-lg
-      h1 Sign in
-      form(name='signin', role='form')
-        br
-        .row
-          .input-group
-            span.input-group-addon Email
-            input(name='userEmail', ng-model='user.emailLog',type="text",class="form-control", required)
-        br
-        .row
-          button.btn.btn-default(type="submit",ng-click='loginUser()', ng-disabled='!signin.$valid') Sign in
-
-.row
-  .col-xs-8
-    .alert.alert-danger(ng-show='message') {{message}}
+.col-sm-8.col-sm-offset-2
+  form(method='POST',name='signin',role='form')
+    legend Sign In
+    .form-group
+      .btn-group.btn-group-justified
+        a.btn.btn-facebook(href='/auth/facebook')
+          i.fa.fa-facebook
+          | Facebook
+        a.btn.btn-twitter(href='/auth/twitter')
+          i.fa.fa-twitter
+          | Twitter
+        a.btn.btn-github(href='/auth/github')
+          i.fa.fa-github
+          | GitHub
+        a.btn.btn-google-plus(href='/auth/google')
+          i.fa.fa-google-plus
+          | Google
+    .form-group
+      label.control-label(for='email') Email
+      input#email.form-control(ng-model='user.email' ,type='email', name='email', placeholder='Email', autofocus=true, required)
+    .form-group
+      label.control-label(for='username') Password
+      input#password.form-control(ng-model='user.password', type='password', name='password', placeholder='Password', required)
+    .form-group
+      button.btn.btn-primary(type="submit",ng-click='loginUser()', ng-disabled='!signin.$valid')
+        i.fa.fa-unlock-alt
+        | Login

@@ -16,6 +16,8 @@ block navigation
             li(ng-repeat='link in links', ng-class='{active: link.url == url}')
               a(href='{{link.url}}') {{link.name}}
           ul.nav.navbar-nav.pull-right
+            li(ng-class='{active: "/signup" == url}')
+              a(href='/signup') Sign up
             li(ng-class='{active: "/login" == url}')
               a(href='/login') Login
 

@@ -37,6 +37,8 @@ angular.module('myApp.controllers', [])
         }, updateUrl);
 
     })
+    .controller('SignupCtrl', function ($scope,$http,$location) {
+    })
     .controller('LoginCtrl', function ($scope,$http,$location) {
         $scope.message='';
         $scope.createUser = function() {
