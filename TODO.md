@@ -1,18 +1,18 @@
 * google map api
+** address, typeahead ? autocomplete ?
+
 * daterange - angular js directive instead of datepicker
-* address, typeahead ?
-* add price to car
 
 * WTF: no $le and $ge for dates. Find a solution, use moment.js ?
 
+
 * connect to minify
+** scripts include / cdn when prod
+** gulp to build ?
 
-* scripts include / cdn when prod
 * write tests
+* user
+** user session
+** DB
 
-* user session
-
-* restyle ap
-
-* users
 * upload photo of the car

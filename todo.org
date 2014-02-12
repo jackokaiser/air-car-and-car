@@ -1,7 +1,0 @@
-|-------------------------|
-| Database                |
-| Match cars/users        |
-| bootstrap               |
-| google map api          |
-| date selector JQUERY UI |
-|                         |
