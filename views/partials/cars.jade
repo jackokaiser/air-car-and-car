@@ -31,7 +31,7 @@
                     h4 {{car.location | lowercase}}
                   .col-xs-4
                     h4
-                      span.label.label-danger Price
+                      span.label.label-danger {{car.price | currency:$}}
                   .col-xs-12
                     p {{car.dateFrom | date:'dd/MM/yyyy'}} - {{car.dateTo | date:'dd/MM/yyyy'}}
 

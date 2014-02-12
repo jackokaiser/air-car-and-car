@@ -1,7 +1,11 @@
 'use strict';
 
 // Models
+
+// the car array
 var cars;
+// the car instance for registration
+var car;
 
 /* Controllers */
 Array.prototype.findIndex = Array.prototype.findIndex ||
@@ -94,22 +98,26 @@ angular.module('myApp.controllers', [])
     .controller('NewCarCtrl', function ($scope,$http) {
         // write Ctrl here
         $scope.message='';
-        $scope.car = {};
+        $scope.car = car;
         $scope.addCar = function()
         {
+            // in case user added non digit
+            $scope.car.price = parseInt($scope.car.price,10);
+            car = $scope.car;
             // push to server
             var optionsObj = {
                 method : 'POST',
                 url : '/api/cars',
                 data : $scope.car
             };
-            $http(optionsObj).success(function (data, status, headers, config) {
-                $scope.message = 'Thanks, the car ' + config.data.name +
+            $http(optionsObj)
+                .success(function (data, status, headers, config) {
+                    $scope.message = 'Thanks, the car ' + config.data.name +
                     ' has been registered!';
-            }).error(function (data, status, headers, config) {
-                $scope.message = 'An error has occured while '+
-                    'registering the car ' + config.data.name;
-            });
+                }).error(function (data, status, headers, config) {
+                    $scope.message = 'An error has occured while '+
+                        'registering the car ' + config.data.name;
+                });
             // $location.url('/');
         };
 

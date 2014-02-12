@@ -33,10 +33,11 @@ process.on('SIGINT', function () {
 ///////////////// Create Schema
 ///////////////
 var carSchema = new mongoose.Schema({
-    name : String,
-    location : String,
-    dateFrom : Date,
-    dateTo : Date
+    name : {type : String, required : true},
+    price : {type : Number, required : true},
+    location : {type : String, required : true},
+    dateFrom : {type : Date, required : true},
+    dateTo : {type : Date, required : true}
 });
 
 // exports models

@@ -18,20 +18,26 @@ exports.cars.get = function (req, res) {
 
     var query = req.query;
     console.log(query);
-    var dbQuery = {};
-    if(query.location)
-        dbQuery.location = query.location.toUpperCase();
-    if(query.dateFrom)
-        dbQuery.dateFrom = {
-            $lt : new Date(parseInt(query.dateFrom,10)).toISOString()
-        };
-    if(query.dateTo)
-        dbQuery.dateTo = {
-            $gt : new Date(parseInt(query.dateTo,10)).toISOString()
-        };
+    var dbQuery;
+    if (query.location) {
+        // user specified location
+        dbQuery = CarModel.find({location: query.location.toUpperCase()});
+    }
+    else {
+        // no location: let's find everything
+        dbQuery = CarModel.find({});
+    }
 
-    console.log(dbQuery);
-    CarModel.find(dbQuery,function( err, docs) {
+    if(query.dateFrom) {
+        dbQuery.where('dateFrom')
+            .lte(new Date(parseInt(query.dateFrom,10)));
+    }
+    if(query.dateTo) {
+        dbQuery.where('dateTo')
+            .gte(new Date(parseInt(query.dateTo,10)));
+    }
+
+    dbQuery.exec(function( err, docs) {
         if (err) {
             console.log('Error fetching data: '+err);
             return;
@@ -52,7 +58,8 @@ exports.cars.post = function (req, res) {
         name : req.param('name').toUpperCase(),
         location : req.param('location').toUpperCase(),
         dateFrom : req.param('dateFrom'),
-        dateTo : req.param('dateTo')
+        dateTo : req.param('dateTo'),
+        price : req.param('price')
     },function(err,car) {
         if (err) {
             console.log('Error saving data: '+err);
