@@ -22,7 +22,8 @@ angular.module('myApp.controllers', [])
         $scope.brand = 'AirCnC';
         $scope.links = [
             {name: 'cars', url: '/cars'},
-            {name: 'map', url: '/map'},
+            // coming soon
+            // {name: 'map', url: '/map'},
             {name: 'newcar', url: '/newcar'}
         ];
         var updateLink = function() {
