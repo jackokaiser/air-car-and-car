@@ -26,18 +26,37 @@ angular.module('myApp.controllers', [])
             // {name: 'map', url: '/map'},
             {name: 'newcar', url: '/newcar'}
         ];
-        var updateLink = function() {
-            // find index of the link in the array
-            $scope.selected=$scope.links.findIndex(function(elem) {
-                return elem.url === $location.path();
-            });
+        var updateUrl = function() {
+            // get current url
+            $scope.url = $location.path();
         };
         // watch path
         // care: isn't property of the scope
         $scope.$watch(function(){
             return $location.path();
-        }, updateLink);
+        }, updateUrl);
 
+    })
+    .controller('LoginCtrl', function ($scope,$http,$location) {
+        $scope.message='';
+        $scope.createUser = function() {
+            var optionsObj = {
+                method : 'POST',
+                url : '/api/user',
+                data : $scope.user
+            };
+            $http(optionsObj)
+                .success(function (data, status, headers, config) {
+                    console.log('User ' + config.data.name +
+                                ' has been registered!');
+                    $location.url('/user/name');
+                }).error(function (data, status, headers, config) {
+                    $scope.message = 'An error has occured while '+
+                        'registering user ' + config.data.name;
+                });
+        };
+        $scope.loginUser = function() {
+        };
     })
     .controller('RootCtrl', function ($scope, $http) {
 

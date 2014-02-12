@@ -1,0 +1,44 @@
+.row
+  .col-lg-1
+  .col-xs-3
+    .well.well-lg
+      h1 Sign up
+      form(name='signup', role='form')
+        .row
+          h4 User informations
+          .input-group
+            span.input-group-addon Name
+            input(name='userName', ng-model='user.name',type="text",class="form-control", required)
+        br
+        .row
+          .input-group
+            span.input-group-addon Email
+            input(name='userEmail', ng-model='user.email',type="email",class="form-control", required)
+
+        br
+        .row
+          .input-group
+            span.input-group-addon Phone
+            input(name='userPhone', ng-model='user.phone',type="text",class="form-control")
+        br
+        .row
+          button.btn.btn-default(type="submit",ng-click='createUser()', ng-disabled='!signup.$valid') Sign up
+
+  .col-lg-2
+
+  .col-xs-3
+    .well.well-lg
+      h1 Sign in
+      form(name='signin', role='form')
+        br
+        .row
+          .input-group
+            span.input-group-addon Email
+            input(name='userEmail', ng-model='user.emailLog',type="text",class="form-control", required)
+        br
+        .row
+          button.btn.btn-default(type="submit",ng-click='loginUser()', ng-disabled='!signin.$valid') Sign in
+
+.row
+  .col-xs-8
+    .alert.alert-danger(ng-show='message') {{message}}

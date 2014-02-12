@@ -48,6 +48,7 @@ app.get('/partials/:name', routes.partials);
 app.get('/api/name', api.name);
 app.get('/api/cars', api.cars.get);
 app.post('/api/cars', api.cars.post);
+app.post('/api/user', api.user.post);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);

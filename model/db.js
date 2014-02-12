@@ -42,3 +42,12 @@ var carSchema = new mongoose.Schema({
 
 // exports models
 exports.CarModel = mongoose.model('Car', carSchema);
+
+var userSchema = new mongoose.Schema({
+    name : {type : String, required : true},
+    email : {type : String, required : true, unique : true},
+    phone : {type : Number}
+});
+
+// exports models
+exports.UserModel = mongoose.model('User', userSchema);

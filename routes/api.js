@@ -1,4 +1,6 @@
-var CarModel = require('../model/db').CarModel;
+var db = require('../model/db');
+var CarModel = db.CarModel;
+var UserModel = db.UserModel;
 
 /*
  * Serve JSON to our AngularJS client
@@ -69,4 +71,26 @@ exports.cars.post = function (req, res) {
         console.log('Car '+car.name+' successfuly saved');
         res.send(200);
     });
+};
+
+exports.user = {};
+
+exports.user.post = function(req,res)
+{
+    console.log('received request to register user: '+req.param('name'));
+
+    UserModel.create({
+        name : req.param('name').toUpperCase(),
+        email : req.param('email').toUpperCase(),
+        phone : req.param('phone')
+    },function(err,user) {
+        if (err) {
+            console.log('Error saving data: '+err);
+            res.send(500);
+            return;
+        }
+        console.log('User '+user.name+' successfuly saved');
+        res.send(200);
+    });
+
 };
