@@ -4,14 +4,7 @@ var mongoose = require( 'mongoose' );
 ///////////////
 ///////////////// Init the database
 ///////////////
-var dbURI;
-if (process.env.DATABASE_URL) {
-    dbURI = process.env.DATABASE_URL;
-}
-else {
-    // build the connection string
-    dbURI = 'mongodb://localhost/MongoosePM';
-}
+var dbURI = process.env.DATABASE_URL;
 
 // connect and init
 // create the database connection
