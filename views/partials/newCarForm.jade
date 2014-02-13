@@ -24,11 +24,7 @@ br
       br
       .row
         h4 Availabilities
-        .input-daterange.input-group
-          input(datepicker, name='dateFrom', ng-model='$parent.car.dateFrom',type="text",class="form-control", placeholder='start',required)
-          span.input-group-addon to
-          input(datepicker, name='dateTo', ng-model='$parent.car.dateTo',type="text",class="form-control", placeholder='end', required)
-
+          input(daterange, ng-model='dateRange', required)
 
 br
 .row

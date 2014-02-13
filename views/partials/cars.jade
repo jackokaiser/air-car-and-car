@@ -7,7 +7,7 @@
           span.col-sm-4
             input#addresspicker(name='location', ng-model='locationQuery',type="text",class="form-control", placeholder='Where?', required)
           span.col-sm-5
-            div(daterange, ng-model='dateRange')
+            input(daterange, ng-model='dateRange', required)
           span.col-lg-3
             button.btn.btn-default(type="submit",ng-click='carQuery()',ng-disabled='!carsQuery.$valid') Submit
 

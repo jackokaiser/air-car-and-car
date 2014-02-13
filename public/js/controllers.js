@@ -126,6 +126,8 @@ angular.module('myApp.controllers', [])
         {
             // in case user added non digit
             $scope.car.price = parseInt($scope.car.price,10);
+            $scope.car.dateFrom = $scope.dateRange.dateFrom;
+            $scope.car.dateTo = $scope.dateRange.dateTo;
             car = $scope.car;
             // push to server
             var optionsObj = {
