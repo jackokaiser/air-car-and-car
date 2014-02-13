@@ -1,6 +1,5 @@
-var db = require('../model/db');
-var CarModel = db.CarModel;
-var UserModel = db.UserModel;
+var CarModel = require('../models/Car');
+var UserModel = require('../models/User');
 
 /*
  * Serve JSON to our AngularJS client
@@ -11,9 +10,7 @@ exports.name = function (req, res) {
     });
 };
 
-exports.cars = {};
-
-exports.cars.get = function (req, res) {
+exports.getCars = function (req, res) {
     console.log('request for available car received');
     // query db to get car available
     // at the right place and on the right time
@@ -52,7 +49,7 @@ exports.cars.get = function (req, res) {
 
 };
 
-exports.cars.post = function (req, res) {
+exports.postCars = function (req, res) {
     console.log('received request to register car: '+
                 req.param('name')+' '+req.param('location')+
                 ' '+req.param('dateFrom')+' '+req.param('dateTo'));
@@ -71,26 +68,4 @@ exports.cars.post = function (req, res) {
         console.log('Car '+car.name+' successfuly saved');
         res.send(200);
     });
-};
-
-exports.user = {};
-
-exports.user.post = function(req,res)
-{
-    console.log('received request to register user: '+req.param('name'));
-
-    UserModel.create({
-        name : req.param('name').toUpperCase(),
-        email : req.param('email').toUpperCase(),
-        phone : req.param('phone')
-    },function(err,user) {
-        if (err) {
-            console.log('Error saving data: '+err);
-            res.send(500);
-            return;
-        }
-        console.log('User '+user.name+' successfuly saved');
-        res.send(200);
-    });
-
 };

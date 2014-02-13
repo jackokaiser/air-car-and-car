@@ -5,6 +5,16 @@
   "dependencies": {
     "express": "~3.2.6",
     "jade": "~0.31.2",
-    "mongoose": "*"
+    "mongoose": "~3.8.5",
+    "passport": "~0.2.0",
+    "passport-facebook": "~1.0.2",
+    "passport-github": "~0.1.5",
+    "passport-google-oauth": "~0.1.5",
+    "passport-local": "~0.1.6",
+    "passport-oauth": "~1.0.0",
+    "passport-twitter": "~1.0.2",
+    "bcrypt-nodejs": "~0.0.3",
+    "underscore": "~1.5.2",
+    "express-validator": "~1.0.1"
   }
 }

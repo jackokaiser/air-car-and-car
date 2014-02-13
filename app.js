@@ -3,10 +3,15 @@
  */
 
 var express = require('express'),
+db = require('./models/db'),
 routes = require('./routes'),
+userRoutes = require('./routes/user'),
 api = require('./routes/api'),
 http = require('http'),
-path = require('path');
+path = require('path'),
+passport = require('passport'),
+passportConf = require('./config/passport'),
+expressValidator = require('express-validator');
 
 var app = module.exports = express();
 
@@ -19,11 +24,27 @@ var app = module.exports = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+app.use(expressValidator());
 app.use(express.static(path.join(__dirname, 'public')));
+// +app.use(passport.initialize());
+// +app.use(passport.session());
+// // shortcut middleware
+// +app.use(function(req, res, next) {
+// +  res.locals.user = req.user;
+// +  next();
+// +});
 app.use(app.router);
+
+// app.use(express.bodyParser());
+// app.use(function(req, res) {
+//   res.status(404);
+//   res.render('404');
+// });
+
 
 // development only
 if (app.get('env') === 'development') {
@@ -41,14 +62,37 @@ if (app.get('env') === 'production') {
  */
 
 // serve index and view partials
+////// all other routes are handled client side with angular.js
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
-// JSON API
+app.post('/login', userRoutes.postLogin);
+app.get('/logout', userRoutes.logout);
+app.post('/signup', userRoutes.postSignup);
+
+app.get('/account', passportConf.isAuthenticated, userRoutes.getAccount);
+app.post('/account/profile', passportConf.isAuthenticated, userRoutes.postUpdateProfile);
+app.post('/account/password', passportConf.isAuthenticated, userRoutes.postUpdatePassword);
+app.post('/account/delete', passportConf.isAuthenticated, userRoutes.postDeleteAccount);
+// app.get('/account/unlink/:provider', passportConf.isAuthenticated, userRoutes.getOauthUnlink);
+
+// Our RESTful JSON API
 app.get('/api/name', api.name);
-app.get('/api/cars', api.cars.get);
-app.post('/api/cars', api.cars.post);
-app.post('/api/user', api.user.post);
+app.get('/api/cars', api.getCars);
+app.post('/api/cars', api.postCars);
+
+/**
+ * OAuth routes for sign-in.
+ */
+app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
+app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' }));
+app.get('/auth/github', passport.authenticate('github'));
+app.get('/auth/github/callback', passport.authenticate('github', { successRedirect: '/', failureRedirect: '/login' }));
+app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
+app.get('/auth/google/callback', passport.authenticate('google', { successRedirect: '/', failureRedirect: '/login' }));
+app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/', failureRedirect: '/login' }));
+
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);

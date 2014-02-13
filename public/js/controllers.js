@@ -38,13 +38,10 @@ angular.module('myApp.controllers', [])
 
     })
     .controller('SignupCtrl', function ($scope,$http,$location) {
-    })
-    .controller('LoginCtrl', function ($scope,$http,$location) {
-        $scope.message='';
-        $scope.createUser = function() {
+        $scope.signupUser = function() {
             var optionsObj = {
                 method : 'POST',
-                url : '/api/user',
+                url : '/signup',
                 data : $scope.user
             };
             $http(optionsObj)
@@ -56,8 +53,25 @@ angular.module('myApp.controllers', [])
                     $scope.message = 'An error has occured while '+
                         'registering user ' + config.data.name;
                 });
-        };
+
+        }
+    })
+    .controller('LoginCtrl', function ($scope,$http,$location) {
         $scope.loginUser = function() {
+            var optionsObj = {
+                method : 'POST',
+                url : '/login',
+                data : $scope.user
+            };
+            $http(optionsObj)
+                .success(function (data, status, headers, config) {
+                    console.log('User ' + config.data.name +
+                                ' has been registered!');
+                    $location.url('/user/name');
+                }).error(function (data, status, headers, config) {
+                    $scope.message = 'An error has occured while '+
+                        'registering user ' + config.data.name;
+                });
         };
     })
     .controller('RootCtrl', function ($scope, $http) {

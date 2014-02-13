@@ -28,26 +28,3 @@ process.on('SIGINT', function () {
         process.exit(0);
     });
 });
-
-///////////////
-///////////////// Create Schema
-///////////////
-var carSchema = new mongoose.Schema({
-    name : {type : String, required : true},
-    price : {type : Number, required : true},
-    location : {type : String, required : true},
-    dateFrom : {type : Date, required : true},
-    dateTo : {type : Date, required : true}
-});
-
-// exports models
-exports.CarModel = mongoose.model('Car', carSchema);
-
-var userSchema = new mongoose.Schema({
-    name : {type : String, required : true},
-    email : {type : String, required : true, unique : true},
-    phone : {type : Number}
-});
-
-// exports models
-exports.UserModel = mongoose.model('User', userSchema);
