@@ -1,5 +1,5 @@
-var CarModel = require('../models/Car');
-var UserModel = require('../models/User');
+var Car = require('../models/Car');
+var User = require('../models/User');
 
 /*
  * Serve JSON to our AngularJS client
@@ -20,11 +20,11 @@ exports.getCars = function (req, res) {
     var dbQuery;
     if (query.location) {
         // user specified location
-        dbQuery = CarModel.find({location: query.location.toUpperCase()});
+        dbQuery = Car.find({location: query.location.toUpperCase()});
     }
     else {
         // no location: let's find everything
-        dbQuery = CarModel.find({});
+        dbQuery = Car.find({});
     }
 
     if(query.dateFrom) {
@@ -53,7 +53,7 @@ exports.postCars = function (req, res) {
     console.log('received request to register car: '+
                 req.param('name')+' '+req.param('location')+
                 ' '+req.param('dateFrom')+' '+req.param('dateTo'));
-    CarModel.create({
+    Car.create({
         name : req.param('name').toUpperCase(),
         location : req.param('location').toUpperCase(),
         dateFrom : req.param('dateFrom'),

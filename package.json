@@ -15,6 +15,7 @@
     "passport-twitter": "~1.0.2",
     "bcrypt-nodejs": "~0.0.3",
     "underscore": "~1.5.2",
-    "express-validator": "~1.0.1"
+    "express-validator": "~1.0.1",
+    "connect-mongo": "~0.4.0"
   }
 }

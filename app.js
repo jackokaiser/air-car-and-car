@@ -2,17 +2,19 @@
  * Module dependencies
  */
 
-var express = require('express'),
-db = require('./models/db'),
-routes = require('./routes'),
-userRoutes = require('./routes/user'),
-api = require('./routes/api'),
-http = require('http'),
-path = require('path'),
-passport = require('passport'),
-passportConf = require('./config/passport'),
-expressValidator = require('express-validator');
-
+var express = require('express');
+var MongoStore = require('connect-mongo')(express);
+var db = require('./models/db');
+var mongoose = require('mongoose');
+var routes = require('./routes');
+var userRoutes = require('./routes/user');
+var api = require('./routes/api');
+var http = require('http');
+var path = require('path');
+var passport = require('passport');
+var secrets = require('./config/secrets');
+var passportConf = require('./config/passport');
+var expressValidator = require('express-validator');
 var app = module.exports = express();
 
 
@@ -29,6 +31,20 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(expressValidator());
+app.use(express.cookieParser());
+app.use(express.session({
+  secret: secrets.sessionSecret,
+  store: new MongoStore({
+    db: mongoose.connection.db,
+    auto_reconnect: true
+  })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(function(req, res, next) {
+  res.locals.user = req.user;
+  next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 // +app.use(passport.initialize());
 // +app.use(passport.session());

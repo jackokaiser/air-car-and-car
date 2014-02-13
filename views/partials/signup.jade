@@ -12,9 +12,9 @@
     .form-group
       label.col-sm-3.control-label(for='username') Confirm Password
       .col-sm-7
-        input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required)
+        input.form-control(ng-model='user.confirmPassword',type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required)
     .form-group
       .col-sm-offset-3.col-sm-7
-        button.btn.btn-primary(type="submit",ng-click='createUser()', ng-disabled='!signup.$valid')
+        button.btn.btn-primary(type="submit",ng-click='signupUser()', ng-disabled='!signup.$valid')
           i.fa.fa-check
           | Sign up

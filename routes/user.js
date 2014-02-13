@@ -18,8 +18,8 @@ exports.postLogin = function(req, res, next) {
 
     if (errors) {
         console.log('errors', errors);
-        res.send(201);
-        return res.redirect('/login');
+        res.send(401);
+        return;
     }
 
     passport.authenticate('local', function(err, user, info) {
@@ -27,13 +27,15 @@ exports.postLogin = function(req, res, next) {
 
         if (!user) {
             console.log('errors', { msg: info.message });
-            res.send(201);
-            return res.redirect('/login');
+            res.send(401);
+            // return res.redirect('/login');
+            return;
         }
 
         req.logIn(user, function(err) {
             if (err) return next(err);
-            return res.redirect('/');
+            res.send(200);
+            return;
         });
     })(req, res, next);
 };
@@ -54,7 +56,8 @@ exports.postSignup = function(req, res, next) {
 
     if (errors) {
         console.log('errors', errors);
-        return res.redirect('/signup');
+        res.send(401);
+        return;
     }
 
     var user = new User({
@@ -65,13 +68,23 @@ exports.postSignup = function(req, res, next) {
     user.save(function(err) {
         if (err) {
             if (err.code === 11000) {
-                console.log('errors', { msg: 'User with that email already exists.' });
+                console.log('errors', { msg: 'User with that email'+
+                                        ' already exists.' });
+                res.send(401);
             }
-            return res.redirect('/signup');
+            res.send(401);
+            // return res.redirect('/signup');
+            return;
         }
+        // win
+        console.log('no error while we creating '+user)
+        // try to log the guy in
+        // that should maybe be done client side
         req.logIn(user, function(err) {
             if (err) return next(err);
-            res.redirect('/');
+            res.send(200);
+            // res.redirect('/');
+            return;
         });
     });
 };

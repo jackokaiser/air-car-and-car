@@ -39,6 +39,7 @@ angular.module('myApp.controllers', [])
     })
     .controller('SignupCtrl', function ($scope,$http,$location) {
         $scope.signupUser = function() {
+
             var optionsObj = {
                 method : 'POST',
                 url : '/signup',
@@ -46,12 +47,9 @@ angular.module('myApp.controllers', [])
             };
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
-                    console.log('User ' + config.data.name +
-                                ' has been registered!');
-                    $location.url('/user/name');
+                    console.log('User has been registered!');
                 }).error(function (data, status, headers, config) {
-                    $scope.message = 'An error has occured while '+
-                        'registering user ' + config.data.name;
+                    $scope.message = 'An error has occured while registering user ';
                 });
 
         }
@@ -65,12 +63,9 @@ angular.module('myApp.controllers', [])
             };
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
-                    console.log('User ' + config.data.name +
-                                ' has been registered!');
-                    $location.url('/user/name');
+                    console.log('User has been loged!');
                 }).error(function (data, status, headers, config) {
-                    $scope.message = 'An error has occured while '+
-                        'registering user ' + config.data.name;
+                    $scope.message = 'An error has occured while login ';
                 });
         };
     })
