@@ -83,12 +83,13 @@ angular.module('myApp.controllers', [])
         $scope.message = '';
         $scope.carQuery = function ()
         {
+            console.debug($scope.dateRange);
             // drop previous cars
             cars = null;
             // forge query
             var query = {
-                dateFrom : new Date($scope.dateQueryFrom).getTime(),
-                dateTo : new Date($scope.dateQueryTo).getTime(),
+                dateFrom : new Date($scope.dateRange.dateFrom).getTime(),
+                dateTo : new Date($scope.dateRange.dateFrom).getTime(),
                 location : $scope.locationQuery
             };
             console.log(query);
