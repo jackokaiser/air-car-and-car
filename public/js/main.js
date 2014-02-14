@@ -9,7 +9,7 @@ var checkLoggedin = function($q, $timeout, $http, $location, ErrorService){
         if (user !== '0') $timeout(deferred.resolve, 0);
         // Not Authenticated
         else {
-            ErrorService.setError('You need to log in');
+            // ErrorService.setError('You need to log in');
             $timeout(function() {
                 deferred.reject(); }, 0); $location.url('/login');
         }

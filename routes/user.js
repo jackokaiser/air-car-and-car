@@ -18,7 +18,7 @@ exports.postLogin = function(req, res, next) {
 
     if (errors) {
         console.log('errors', errors);
-        res.send(401);
+        res.send(400);
         return;
     }
 
@@ -27,7 +27,7 @@ exports.postLogin = function(req, res, next) {
 
         if (!user) {
             console.log('errors', { msg: info.message });
-            res.send(401);
+            res.send(400);
             return;
         }
 
@@ -55,7 +55,7 @@ exports.postSignup = function(req, res, next) {
 
     if (errors) {
         console.log('errors', errors);
-        res.send(401);
+        res.send(422);
         return;
     }
 
@@ -69,9 +69,9 @@ exports.postSignup = function(req, res, next) {
             if (err.code === 11000) {
                 console.log('errors', { msg: 'User with that email'+
                                         ' already exists.' });
-                res.send(401);
+                res.send(409);
             }
-            res.send(401);
+            res.send(422);
             // return res.redirect('/signup');
             return;
         }

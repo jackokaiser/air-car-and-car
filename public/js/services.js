@@ -30,8 +30,16 @@ angular.module('myApp.services', [])
                      }, function(response) {
                          if (response.status === 401) {
                              $rootScope.$broadcast('event:loginRequired');
+                             ErrorService.setError('You need to log in');
+                         } else if (response.status === 409) {
+                             ErrorService.setError('An user with '+
+                                                   'this email already exist');
+                         } else if (response.status === 400) {
+                             ErrorService.setError("The password you submitted doesn't match our record");
+                         } else if (response.status === 422) {
+                             ErrorService.setError("Form is not valid. Passwords must match and have at least 4 characters");
                          } else if (response.status >= 400 &&
-                                    reponse.status < 500) {
+                                    response.status < 500) {
                              ErrorService.setError('Server was unable to '+
                                                    'find what you were looking for... Sorry!');
                          }

@@ -47,9 +47,9 @@ angular.module('myApp.controllers', [])
             };
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
-                    console.log('User has been registered!');
+                    $location.path('/cars');
                 }).error(function (data, status, headers, config) {
-                    $scope.message = 'An error has occured while registering user ';
+                    console.log("Error occured while sign up");
                 });
 
         }
@@ -63,14 +63,13 @@ angular.module('myApp.controllers', [])
             };
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
-                    console.log('User has been loged!');
+                    $location.path('/cars');
                 }).error(function (data, status, headers, config) {
-                    $scope.message = 'An error has occured while login ';
+                    console.log("Error occured while login");
                 });
         };
     })
     .controller('RootCtrl', ['$scope', '$location', 'ErrorService', function ($scope, $location, ErrorService) {
-        // $scope.errorMessage = ErrorService.errorMessage;
         $scope.errorService = ErrorService;
         $scope.$on('event:loginRequired', function() {
             $location.path('/login');
