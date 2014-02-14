@@ -57,9 +57,9 @@ angular.module('myApp.directives', [])
                 var alertMessageAttr = attrs['alertMessage'];
                 scope.errorMessage = null;
 
-                scope.$watch(alertMessageAttr, function(newVal) {
-                    scope.errorMessage = newVal;
-                });
+                // scope.$watch(alertMessageAttr, function(newVal) {
+                //     scope.errorMessage = newVal;
+                // });
                 scope.hideAlert = function() {
                     scope.errorMessage=null;
                     // Also clear the error message on the bound variable.
