@@ -18,8 +18,9 @@ Array.prototype.findIndex = Array.prototype.findIndex ||
     };
 
 angular.module('myApp.controllers', [])
-    .controller('NavCtrl', function ($scope,$location) {
+    .controller('NavCtrl', ['$scope','$location','$rootScope',function ($scope,$location,$rootScope) {
         $scope.brand = 'AirCnC';
+        $scope.isLogged = $rootScope.logged;
         $scope.links = [
             {name: 'cars', url: '/cars'},
             // coming soon
@@ -36,8 +37,8 @@ angular.module('myApp.controllers', [])
             return $location.path();
         }, updateUrl);
 
-    })
-    .controller('SignupCtrl', function ($scope,$http,$location) {
+    }])
+    .controller('SignupCtrl', ['$scope','$http','$location','$rootScope', function ($scope,$http,$location,$rootScope) {
         $scope.signupUser = function() {
 
             var optionsObj = {
@@ -48,13 +49,15 @@ angular.module('myApp.controllers', [])
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
                     $location.path('/cars');
+                    $rootScope.logged=true;
                 }).error(function (data, status, headers, config) {
                     console.log("Error occured while sign up");
+                    $rootScope.logged=false;
                 });
 
-        }
-    })
-    .controller('LoginCtrl', function ($scope,$http,$location) {
+        };
+    }])
+    .controller('LoginCtrl', ['$scope','$http','$location','$rootScope',function ($scope,$http,$location,$rootScope) {
         $scope.loginUser = function() {
             var optionsObj = {
                 method : 'POST',
@@ -64,11 +67,13 @@ angular.module('myApp.controllers', [])
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
                     $location.path('/cars');
+                    $rootScope.logged=true;
                 }).error(function (data, status, headers, config) {
                     console.log("Error occured while login");
+                    $rootScope.logged=false;
                 });
         };
-    })
+    }])
     .controller('RootCtrl', ['$scope', '$location', 'ErrorService', function ($scope, $location, ErrorService) {
         $scope.errorService = ErrorService;
         $scope.$on('event:loginRequired', function() {
@@ -121,9 +126,9 @@ angular.module('myApp.controllers', [])
                 }
                 $scope.cars = cars;
             }).error(function (data, status, headers, config) {
-                throw new Error('Cannot get cars!');
                 cars = null;
-                $scope.cars = cars;
+                $scope.cars = null;
+                throw new Error('Cannot get cars!');
             });
         };
     })
@@ -150,7 +155,7 @@ angular.module('myApp.controllers', [])
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
                     $scope.message = 'Thanks, the car ' + config.data.name +
-                    ' has been registered!';
+                        ' has been registered!';
                 }).error(function (data, status, headers, config) {
                     $scope.message = 'An error has occured while '+
                         'registering the car ' + config.data.name;

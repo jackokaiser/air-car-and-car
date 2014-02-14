@@ -82,10 +82,13 @@ if (app.get('env') === 'production') {
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
+// try to auth user
 app.post('/login', userRoutes.postLogin);
+// is user logged in
 app.get('/loggedin', userRoutes.getLoggedin);
-
+// log out
 app.get('/logout', userRoutes.logout);
+// try to sign up user
 app.post('/signup', userRoutes.postSignup);
 
 // app.get('/account', passportConf.isAuthenticated, userRoutes.getAccount);
