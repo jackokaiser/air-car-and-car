@@ -38,7 +38,18 @@ angular.module('myApp.services', [])
                          return $q.reject(response);
                      });
                  };
-             });
+             })
+    .factory('Authentication', function() {
+        return {
+            getTokenType: function() {
+                return 'Awesome';
+            },
+            getAccessToken: function() {
+                // Fetch from the server in real life
+                return 'asdads131321asdasdasdas';
+            }
+        };
+    });
     // // this factory is only evaluated once, and authHttp is memorized.
     // // That is, future requests to authHttp service will return
     // // the same instance of authHttp

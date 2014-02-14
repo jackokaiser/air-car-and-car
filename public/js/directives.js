@@ -49,6 +49,7 @@ angular.module('myApp.directives', [])
             }
         };
     })
+
     .directive('alertBar', ['$parse', function($parse) {
         return {
             restict: 'A',
