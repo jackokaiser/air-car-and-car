@@ -13,7 +13,7 @@ angular.module('myApp.services', [])
                 this.errorMessage = msg;
             },
             clear: function() {
-                this.errorMessage=null;
+                this.errorMessage = null;
             }
         };
     })
