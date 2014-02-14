@@ -83,19 +83,22 @@ app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
 app.post('/login', userRoutes.postLogin);
+app.get('/loggedin', userRoutes.getLoggedin);
+
 app.get('/logout', userRoutes.logout);
 app.post('/signup', userRoutes.postSignup);
 
-app.get('/account', passportConf.isAuthenticated, userRoutes.getAccount);
-app.post('/account/profile', passportConf.isAuthenticated, userRoutes.postUpdateProfile);
-app.post('/account/password', passportConf.isAuthenticated, userRoutes.postUpdatePassword);
-app.post('/account/delete', passportConf.isAuthenticated, userRoutes.postDeleteAccount);
+// app.get('/account', passportConf.isAuthenticated, userRoutes.getAccount);
+// app.post('/account/profile', passportConf.isAuthenticated, userRoutes.postUpdateProfile);
+// app.post('/account/password', passportConf.isAuthenticated, userRoutes.postUpdatePassword);
+// app.post('/account/delete', passportConf.isAuthenticated, userRoutes.postDeleteAccount);
 // app.get('/account/unlink/:provider', passportConf.isAuthenticated, userRoutes.getOauthUnlink);
 
 // Our RESTful JSON API
 app.get('/api/name', api.name);
 app.get('/api/cars', api.getCars);
-app.post('/api/cars', api.postCars);
+// secure
+app.post('/api/cars', passportConf.auth, api.postCars);
 
 /**
  * OAuth routes for sign-in.

@@ -28,7 +28,6 @@ exports.postLogin = function(req, res, next) {
         if (!user) {
             console.log('errors', { msg: info.message });
             res.send(401);
-            // return res.redirect('/login');
             return;
         }
 
@@ -87,6 +86,11 @@ exports.postSignup = function(req, res, next) {
             return;
         });
     });
+};
+
+// route to test if the user is logged in or not
+exports.getLoggedin = function(req, res) {
+    res.send(req.isAuthenticated() ? req.user : '0');
 };
 
 /**
@@ -162,7 +166,7 @@ exports.postDeleteAccount = function(req, res, next) {
     User.remove({ _id: req.user.id }, function(err) {
         if (err) return next(err);
         req.logout();
-        res.redirect('/');
+        res.send(200);
     });
 };
 
@@ -193,8 +197,7 @@ exports.getOauthUnlink = function(req, res, next) {
  * GET /logout
  * Log out.
  */
-
 exports.logout = function(req, res) {
     req.logout();
-    res.redirect('/');
+    res.send(200);
 };

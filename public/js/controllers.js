@@ -69,9 +69,13 @@ angular.module('myApp.controllers', [])
                 });
         };
     })
-    .controller('RootCtrl', function ($scope, $http) {
-
-    })
+    .controller('RootCtrl', ['$scope', '$location', 'ErrorService', function ($scope, $location, ErrorService) {
+        // $scope.errorMessage = ErrorService.errorMessage;
+        $scope.errorService = ErrorService;
+        $scope.$on('event:loginRequired', function() {
+            $location.path('/login');
+        });
+    }])
     .controller('CarCtrl', function ($scope, $http) {
         // debugging : get database
         $scope.cars = cars;

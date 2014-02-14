@@ -238,13 +238,20 @@ passport.use('foursquare', new OAuth2Strategy({
   }
 ));
 
-exports.isAuthenticated = function(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  res.redirect('/login');
+// Define a middleware function to be used for every secured routes
+exports.auth = function(req, res, next) {
+    if (!req.isAuthenticated())
+        res.send(401);
+    else next();
 };
 
-exports.isAuthorized = function(req, res, next) {
-  var provider = req.path.split('/').slice(-1)[0];
-  if (_.findWhere(req.user.tokens, { kind: provider })) next();
-  else res.redirect('/auth/' + provider);
-};
+// exports.isAuthenticated = function(req, res, next) {
+//   if (req.isAuthenticated()) return next();
+//   res.redirect('/login');
+// };
+
+// exports.isAuthorized = function(req, res, next) {
+//   var provider = req.path.split('/').slice(-1)[0];
+//   if (_.findWhere(req.user.tokens, { kind: provider })) next();
+//   else res.redirect('/auth/' + provider);
+// };

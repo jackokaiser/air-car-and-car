@@ -49,8 +49,24 @@ angular.module('myApp.directives', [])
             }
         };
     })
-    .directive('appVersion', function (version) {
-        return function(scope, elm, attrs) {
-            elm.text(version);
+    .directive('alertBar', ['$parse', function($parse) {
+        return {
+            restict: 'A',
+            templateUrl: 'partials/alert.jade',
+            link: function(scope,elem,attrs) {
+                var alertMessageAttr = attrs['alertMessage'];
+                scope.errorMessage = null;
+
+                scope.$watch(alertMessageAttr, function(newVal) {
+                    scope.errorMessage = newVal;
+                });
+                scope.hideAlert = function() {
+                    scope.errorMessage=null;
+                    // Also clear the error message on the bound variable.
+                    // Do this so that if the same error happens again
+                    // the aler bar will be shown again next time
+                    $parse(alertMessageAttr).assign(scope,null);
+                };
+            }
         };
-    });
+    }]);
