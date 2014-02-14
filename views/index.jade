@@ -25,5 +25,6 @@ block navigation
 // client side rendering via angular.js
 block body
   div(ng-controller='RootCtrl')
-    div(alert-bar, alertMessage="errorService.errorMessage")
+    .col-sm-8.col-sm-offset-2
+      div(alert-bar, alertMessage="errorService.errorMessage")
     div(ng-view)

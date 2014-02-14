@@ -53,10 +53,7 @@ angular.module('myApp.directives', [])
     .directive('alertBar', ['$parse', function($parse) {
         return {
             restrict: 'A',
-            template: '<div class="alert alert-error alert-bar" ng-show="errorMessage">' +
-                '<button type="button" class="close" ng-click="hideAlert()">x</button>' +
-                '{{errorMessage}}</div>',
-
+            templateUrl: 'partials/alertBar.jade',
             link: function(scope, elem, attrs) {
                 var alertMessageAttr = attrs['alertmessage'];
                 scope.errorMessage = null;
