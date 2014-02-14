@@ -22,16 +22,25 @@ var app = module.exports = express();
  * Configuration
  */
 
+var hour = 3600000;
+var day = (hour * 24);
+var week = (day * 7);
+var month = (day * 30);
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
+app.use(require('connect-assets')({
+  src: 'public',
+  helperContext: app.locals
+}));
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(expressValidator());
 app.use(express.cookieParser());
+app.use(expressValidator());
+app.use(express.methodOverride());
 app.use(express.session({
   secret: secrets.sessionSecret,
   store: new MongoStore({
@@ -45,21 +54,12 @@ app.use(function(req, res, next) {
   res.locals.user = req.user;
   next();
 });
-app.use(express.static(path.join(__dirname, 'public')));
-// +app.use(passport.initialize());
-// +app.use(passport.session());
-// // shortcut middleware
-// +app.use(function(req, res, next) {
-// +  res.locals.user = req.user;
-// +  next();
-// +});
 app.use(app.router);
-
-// app.use(express.bodyParser());
-// app.use(function(req, res) {
-//   res.status(404);
-//   res.render('404');
-// });
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
+app.use(function(req, res) {
+  res.status(404);
+  res.render('404');
+});
 
 
 // development only

@@ -1,20 +1,13 @@
-!!!
+doctype html
 html(ng-app="myApp")
   head
     meta(charset='utf8')
     base(href='/')
     title Angular Express Seed App
-    link(rel='stylesheet', href='/css/app.css')
-    link(rel='stylesheet', href='/css/lib/bootstrap/bootstrap.min.css')
-    link(rel='stylesheet', href='/css/lib/datepicker_standalone3.css')
+    != css('styles')
+    != js('application')
   body
     block navigation
 
     #mainApp.container
       block body
-
-    script(src='js/lib/jquery-1.11.0.min.js')
-    script(src='/js/lib/bootstrap/bootstrap.min.js')
-    script(src='/js/lib/bootstrap-datepicker.js')
-
-    block scripts
