@@ -18,9 +18,8 @@ Array.prototype.findIndex = Array.prototype.findIndex ||
     };
 
 angular.module('myApp.controllers', [])
-    .controller('NavCtrl', ['$scope','$location','$rootScope',function ($scope,$location,$rootScope) {
+    .controller('NavCtrl', ['$scope','$location',function ($scope,$location) {
         $scope.brand = 'AirCnC';
-        $scope.isLogged = $rootScope.logged;
         $scope.links = [
             {name: 'cars', url: '/cars'},
             // coming soon
@@ -38,7 +37,7 @@ angular.module('myApp.controllers', [])
         }, updateUrl);
 
     }])
-    .controller('SignupCtrl', ['$scope','$http','$location','$rootScope', function ($scope,$http,$location,$rootScope) {
+    .controller('SignupCtrl', ['$scope','$http','$location', function ($scope,$http,$location) {
         $scope.signupUser = function() {
 
             var optionsObj = {
@@ -49,15 +48,13 @@ angular.module('myApp.controllers', [])
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
                     $location.path('/cars');
-                    $rootScope.logged=true;
                 }).error(function (data, status, headers, config) {
                     console.log("Error occured while sign up");
-                    $rootScope.logged=false;
                 });
 
         };
     }])
-    .controller('LoginCtrl', ['$scope','$http','$location','$rootScope',function ($scope,$http,$location,$rootScope) {
+    .controller('LoginCtrl', ['$scope','$http','$location',function ($scope,$http,$location) {
         $scope.loginUser = function() {
             var optionsObj = {
                 method : 'POST',
@@ -67,10 +64,8 @@ angular.module('myApp.controllers', [])
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
                     $location.path('/cars');
-                    $rootScope.logged=true;
                 }).error(function (data, status, headers, config) {
                     console.log("Error occured while login");
-                    $rootScope.logged=false;
                 });
         };
     }])

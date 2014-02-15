@@ -90,6 +90,7 @@ exports.postSignup = function(req, res, next) {
 
 // route to test if the user is logged in or not
 exports.getLoggedin = function(req, res) {
+    console.log("User "+req.user+" is auth: "+req.isAuthenticated());
     res.send(req.isAuthenticated() ? req.user : '0');
 };
 
@@ -198,6 +199,7 @@ exports.getOauthUnlink = function(req, res, next) {
  * Log out.
  */
 exports.logout = function(req, res) {
+    console.log("login out user "+req.user);
     req.logout();
     res.send(200);
 };
