@@ -18,7 +18,7 @@ Array.prototype.findIndex = Array.prototype.findIndex ||
     };
 
 angular.module('myApp.controllers', [])
-    .controller('NavCtrl', ['$scope','$location',function ($scope,$location) {
+    .controller('NavCtrl', ['$scope','$location','$http', 'ErrorService',function ($scope,$location, $http, ErrorService) {
         $scope.brand = 'AirCnC';
         $scope.links = [
             {name: 'cars', url: '/cars'},
@@ -35,6 +35,18 @@ angular.module('myApp.controllers', [])
         $scope.$watch(function(){
             return $location.path();
         }, updateUrl);
+
+        $scope.logout = function () {
+            $http.get('/logout')
+                .success(function (data, status, headers, config) {
+                    console.log('user successfuly loged out');
+                    ErrorService.setError('User successfully logged out');
+                    $location.path('/login');
+                }).error(function (data, status, headers, config) {
+                    ErrorService.setError('Error occured while logging out');
+                    console.log("Error occured while loging out");
+                });
+        };
 
     }])
     .controller('SignupCtrl', ['$scope','$http','$location', function ($scope,$http,$location) {
@@ -63,6 +75,7 @@ angular.module('myApp.controllers', [])
             };
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
+                    console.log("login worked fine");
                     $location.path('/cars');
                 }).error(function (data, status, headers, config) {
                     console.log("Error occured while login");
@@ -71,6 +84,10 @@ angular.module('myApp.controllers', [])
     }])
     .controller('RootCtrl', ['$scope', '$location', 'ErrorService', function ($scope, $location, ErrorService) {
         $scope.errorService = ErrorService;
+        $scope.$watch('ErrorService', function(v) {
+            $scope.errorService = ErrorService;
+        }, true);
+
         $scope.$on('event:loginRequired', function() {
             $location.path('/login');
         });

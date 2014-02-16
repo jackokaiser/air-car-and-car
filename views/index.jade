@@ -22,8 +22,8 @@ block navigation
               a(href='/login') Login
             li(ng-class='{active: "/profile" == url}')
               a(href='/profile') Sign up
-            li(ng-class='{active: "/logout" == url}')
-              a(href='/logout') Logout
+            li
+              a(href='/login',ng-click='logout()') Logout
 
 
 

@@ -19,6 +19,7 @@ var checkLoggedin = function($q, $timeout, $http, $location, ErrorService){
 // Declare app level module which depends on filters, and services
 
 angular.module('myApp', [
+    // 'ngCookies',
     'myApp.controllers',
     'myApp.filters',
     'myApp.services',

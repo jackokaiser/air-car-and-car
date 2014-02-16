@@ -53,30 +53,30 @@ angular.module('myApp.services', [])
                 return 'Awesome';
             },
             getAccessToken: function() {
-                // Fetch from the server in real life
+                // return $cookieStore.get('auth');
                 return 'asdads131321asdasdasdas';
             }
         };
-    });
-    // // this factory is only evaluated once, and authHttp is memorized.
-    // // That is, future requests to authHttp service will return
-    // // the same instance of authHttp
-    // .factory('authHttp', function($http, Authentication) {
-    //     var authHttp = {};
+    })
+    // this factory is only evaluated once, and authHttp is memorized.
+    // That is, future requests to authHttp service will return
+    // the same instance of authHttp
+    .factory('authHttp', function($http, Authentication) {
+        var authHttp = {};
 
-    //     // append the right header to the request
-    //     var extendHeaders = function(config) {
-    //         config.headers = config.headers || {};
-    //         config.headers['Authorization'] = Authentication.getTokenType()+
-    //             ' ' + Authentication.getAccessToken();
-    //     };
-    //     // do this for each $http call
-    //     angular.forEach(['get','delete','head','jsonp'], function(name) {
-    //         authHttp[name] = function(url,config) {
-    //             config = config || {};
-    //             extendHeaders(config);
-    //             return $http[name](url,config);
-    //         };
-    //     });
-    //     return authHttp;
-    // });
+        // append the right header to the request
+        var extendHeaders = function(config) {
+            config.headers = config.headers || {};
+            config.headers['Authorization'] = Authentication.getTokenType()+
+                ' ' + Authentication.getAccessToken();
+        };
+        // do this for each $http call
+        angular.forEach(['get','delete','head','jsonp'], function(name) {
+            authHttp[name] = function(url,config) {
+                config = config || {};
+                extendHeaders(config);
+                return $http[name](url,config);
+            };
+        });
+        return authHttp;
+    });
