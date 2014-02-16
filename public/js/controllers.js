@@ -21,10 +21,10 @@ angular.module('myApp.controllers', [])
     .controller('NavCtrl', ['$scope','$location','$http', 'ErrorService','Authentication',function ($scope,$location, $http, ErrorService,Authentication) {
         $scope.brand = 'AirCnC';
         $scope.links = [
-            {name: 'cars', url: '/cars'},
+            {name: 'cars', url: '/cars', authRequired: false},
             // coming soon
             // {name: 'map', url: '/map'},
-            {name: 'newcar', url: '/newcar'}
+            {name: 'newcar', url: '/newcar', authRequired: true}
         ];
         var updateUrl = function() {
             // get current url
@@ -43,10 +43,10 @@ angular.module('myApp.controllers', [])
         }, updateUrl);
 
         $scope.logout = function () {
+            Authentication.logout();
             $http.get('/logout')
                 .success(function (data, status, headers, config) {
                     console.log('user successfuly loged out');
-                    Authentication.logout();
                     ErrorService.setError('User successfully logged out');
                     $location.path('/login');
                 }).error(function (data, status, headers, config) {

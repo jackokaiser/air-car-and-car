@@ -85,6 +85,7 @@ app.get('/partials/:name', routes.partials);
 
 // try to auth user
 app.post('/login', userRoutes.postLogin);
+app.get('/loggedin', userRoutes.getLoggedin);
 // log out
 app.get('/logout', userRoutes.logout);
 // try to sign up user
@@ -97,7 +98,6 @@ app.post('/signup', userRoutes.postSignup);
 // app.get('/account/unlink/:provider', passportConf.isAuthenticated, userRoutes.getOauthUnlink);
 
 // Our RESTful JSON API
-app.get('/api/name', api.name);
 app.get('/api/cars', api.getCars);
 // secure
 app.post('/api/cars', passportConf.auth, api.postCars);

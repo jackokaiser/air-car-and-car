@@ -76,7 +76,7 @@ exports.postSignup = function(req, res, next) {
             return;
         }
         // win
-        console.log('no error while we creating '+user)
+        console.log('no error while we creating '+user);
         // try to log the guy in
         // that should maybe be done client side
         req.logIn(user, function(err) {
@@ -200,6 +200,14 @@ exports.getOauthUnlink = function(req, res, next) {
  */
 exports.logout = function(req, res) {
     console.log("login out user "+req.user);
-    req.logout();
-    res.send(200);
+    // boom
+    req.session.destroy(function (err) {
+        if (err) {
+            console.log('Error while destroying session: '+err);
+        }
+        // req.session.save();
+        req.logout();
+        console.log('User destroyed properly.');
+        res.send(200);
+    });
 };

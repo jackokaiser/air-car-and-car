@@ -20,8 +20,8 @@ angular.module('myApp.services', [])
     .config(function($httpProvider) {
         $httpProvider.responseInterceptors.push('errorHttpInterceptor');
     })
-    // register the interceptor as a Services
-    // intercepts ALL angular ajax HTTP calls
+// register the interceptor as a Services
+// intercepts ALL angular ajax HTTP calls
     .factory('errorHttpInterceptor',
              function ($q, $location, ErrorService, $rootScope) {
                  return function (promise) {
@@ -47,42 +47,14 @@ angular.module('myApp.services', [])
                      });
                  };
              })
-    .factory('Authentication', function($cookies,$cookieStore) {
-        var authentication = {};
-        authentication.getTokenType = function() {
-            return 'SessionID';
+    .factory('Authentication', function() {
+        var auth = {
+            isLoggedIn : function() {
+                return true;
+            },
+            logout : function() {
+                return;
+            }
         };
-        authentication.getAccessToken= function() {
-            return $cookies['connect.sid'];
-        };
-        authentication.isLoggedIn = function() {
-            // return true;
-            return authentication.getAccessToken() ? true : false;
-        };
-        authentication.logout = function() {
-            $cookieStore.remove('connect.sid');
-        };
-        return  authentication;
-    })
-    // this factory is only evaluated once, and authHttp is memorized.
-    // That is, future requests to authHttp service will return
-    // the same instance of authHttp
-    .factory('authHttp', function($http, Authentication) {
-        var authHttp = {};
-
-        // append the right header to the request
-        var extendHeaders = function(config) {
-            config.headers = config.headers || {};
-            config.headers['Authorization'] = Authentication.getTokenType()+
-                ' ' + Authentication.getAccessToken();
-        };
-        // do this for each $http call
-        angular.forEach(['get','delete','head','jsonp'], function(name) {
-            authHttp[name] = function(url,config) {
-                config = config || {};
-                extendHeaders(config);
-                return $http[name](url,config);
-            };
-        });
-        return authHttp;
+        return auth;
     });

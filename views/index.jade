@@ -13,7 +13,7 @@ block navigation
           a.navbar-brand(href='#') {{brand}}
         #bs-navbar.collapse.navbar-collapse
           ul.nav.navbar-nav
-            li(ng-repeat='link in links', ng-class='{active: link.url == url}')
+            li(ng-repeat='link in links', ng-class='{active: link.url == url}', ng-show='isLoggedIn || !link.authRequired')
               a(href='{{link.url}}') {{link.name}}
           ul.nav.navbar-nav.pull-right
             li(ng-class='{active: "/signup" == url}')
@@ -32,6 +32,8 @@ block navigation
 // client side rendering via angular.js
 block body
   div(ng-controller='RootCtrl')
-    .col-sm-8.col-sm-offset-2
-      div(alert-bar, alertMessage="errorService.errorMessage")
-    div(ng-view)
+    .row
+      .col-sm-8.col-sm-offset-2
+        div(alert-bar, alertMessage="errorService.errorMessage")
+    .row
+      div(ng-view)

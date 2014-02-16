@@ -1,14 +1,6 @@
 var Car = require('../models/Car');
 var User = require('../models/User');
 
-/*
- * Serve JSON to our AngularJS client
- */
-exports.name = function (req, res) {
-    res.json({
-        name: 'Bob'
-    });
-};
 
 exports.getCars = function (req, res) {
     console.log('request for available car received');
