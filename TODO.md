@@ -1,13 +1,6 @@
-Access token, service Auth should read cookie
-and communicate with authHttp
-
-ISSUES =>
-* When user log out, how to notify server ? Instanciate a controller, or can ew cheat with route direction on /logout ?
-ISSUES =>
 * when user is logged, different behaviour (links,..)
 * how to pass the state through the state
-* httpAuth
-* authentication token
+* when does login change?!
 
 
 
