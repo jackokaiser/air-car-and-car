@@ -47,16 +47,22 @@ angular.module('myApp.services', [])
                      });
                  };
              })
-    .factory('Authentication', function() {
-        return {
-            getTokenType: function() {
-                return 'Awesome';
-            },
-            getAccessToken: function() {
-                // return $cookieStore.get('auth');
-                return 'asdads131321asdasdasdas';
-            }
+    .factory('Authentication', function($cookies,$cookieStore) {
+        var authentication = {};
+        authentication.getTokenType = function() {
+            return 'SessionID';
         };
+        authentication.getAccessToken= function() {
+            return $cookies['connect.sid'];
+        };
+        authentication.isLoggedIn = function() {
+            // return true;
+            return authentication.getAccessToken() ? true : false;
+        };
+        authentication.logout = function() {
+            $cookieStore.remove('connect.sid');
+        };
+        return  authentication;
     })
     // this factory is only evaluated once, and authHttp is memorized.
     // That is, future requests to authHttp service will return

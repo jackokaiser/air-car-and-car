@@ -1,25 +1,10 @@
 'use strict';
 
-var checkLoggedin = function($q, $timeout, $http, $location, ErrorService){
-    // Initialize a new promise
-    var deferred = $q.defer();
-    // Make an AJAX call to check if the user is logged in
-    $http.get('/loggedin').success(function(user){
-        // Authenticated
-        if (user !== '0') $timeout(deferred.resolve, 0);
-        // Not Authenticated
-        else {
-            // ErrorService.setError('You need to log in');
-            $timeout(function() {
-                deferred.reject(); }, 0); $location.url('/login');
-        }
-    });
-};
 
 // Declare app level module which depends on filters, and services
 
 angular.module('myApp', [
-    // 'ngCookies',
+    'ngCookies',
     'myApp.controllers',
     'myApp.filters',
     'myApp.services',
@@ -37,10 +22,7 @@ angular.module('myApp', [
             })
             .when('/newcar', {
                 templateUrl: 'partials/newCarForm',
-                controller: 'NewCarCtrl',
-                resolve : {
-                    loggedin : checkLoggedin
-                }
+                controller: 'NewCarCtrl'
             })
             .when('/login', {
                 templateUrl: 'partials/login',

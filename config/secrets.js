@@ -1,7 +1,7 @@
 module.exports = {
   db: 'localhost',
 
-  sessionSecret: "Your Session Secret goes here",
+  sessionSecret: "kalakadouh",
 
   sendgrid: {
     user: 'Your SendGrid Username',

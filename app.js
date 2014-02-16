@@ -46,7 +46,8 @@ app.use(express.session({
   store: new MongoStore({
     db: mongoose.connection.db,
     auto_reconnect: true
-  })
+  }),
+    cookie : { httpOnly : false }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -84,8 +85,6 @@ app.get('/partials/:name', routes.partials);
 
 // try to auth user
 app.post('/login', userRoutes.postLogin);
-// is user logged in
-app.get('/loggedin', userRoutes.getLoggedin);
 // log out
 app.get('/logout', userRoutes.logout);
 // try to sign up user

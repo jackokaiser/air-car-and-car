@@ -13,6 +13,7 @@
 //= require lib/bootstrap/bootstrap.min
 //= require lib/bootstrap-datepicker.js
 //= require lib/angular/angular.js
+//= require lib/angular-cookies/angular-cookies.js
 //= require main
 //= require services
 //= require controllers
