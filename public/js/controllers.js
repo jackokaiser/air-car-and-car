@@ -18,7 +18,7 @@ Array.prototype.findIndex = Array.prototype.findIndex ||
     };
 
 angular.module('myApp.controllers', [])
-    .controller('NavCtrl', ['$scope','$location','$http', 'ErrorService','Authentication',function ($scope,$location, $http, ErrorService,Authentication) {
+    .controller('NavCtrl', ['$scope','$location','$http', 'ErrorService',function ($scope,$location, $http, ErrorService) {
         $scope.brand = 'AirCnC';
         $scope.links = [
             {name: 'cars', url: '/cars', authRequired: false},
@@ -31,10 +31,7 @@ angular.module('myApp.controllers', [])
             $scope.url = $location.path();
         };
 
-        $scope.isLoggedIn = Authentication.isLoggedIn();
-        $scope.$watch(Authentication.isLoggedIn, function() {
-            $scope.isLoggedIn = Authentication.isLoggedIn();
-        });
+        $scope.isLoggedIn = true;
 
         // watch path
         // care: isn't property of the scope
@@ -43,7 +40,6 @@ angular.module('myApp.controllers', [])
         }, updateUrl);
 
         $scope.logout = function () {
-            Authentication.logout();
             $http.get('/logout')
                 .success(function (data, status, headers, config) {
                     console.log('user successfuly loged out');

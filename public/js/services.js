@@ -46,15 +46,4 @@ angular.module('myApp.services', [])
                          return $q.reject(response);
                      });
                  };
-             })
-    .factory('Authentication', function() {
-        var auth = {
-            isLoggedIn : function() {
-                return true;
-            },
-            logout : function() {
-                return;
-            }
-        };
-        return auth;
-    });
+             });
