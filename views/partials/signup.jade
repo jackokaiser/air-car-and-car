@@ -3,16 +3,24 @@
     legend Sign up
     .form-group
       label.col-sm-3.control-label(for='email') Email
-      .col-sm-7
+      .col-sm-4
         input#email.form-control(type='email', name='email', ng-model='user.email', placeholder='Email', autofocus, required)
+      .col-sm-3
+        span.label.label-danger(ng-show="signup.email.$error.email") This is not a valid email!
     .form-group
       label.col-sm-3.control-label(for='username') Password
-      .col-sm-7
-        input#password.form-control(ng-model='user.password', type='password', name='password', placeholder='Password', required)
+      .col-sm-4
+        input#password.form-control(ng-model='user.password', type='password', name='password', placeholder='Password',ng-minlength='4', required)
+      .col-sm-3
+        span.label.label-danger(ng-show="signup.password.$error.minlength") Password must be at least four characters long
+
     .form-group
       label.col-sm-3.control-label(for='username') Confirm Password
-      .col-sm-7
-        input.form-control(ng-model='user.confirmPassword',type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password', required)
+      .col-sm-4
+        input.form-control(ng-model='user.confirmPassword',type='password', name='confirmPassword', placeholder='Confirm Password', pw-check="password", required)
+      .col-sm-3
+        span.label.label-danger(ng-show="signup.confirmPassword.$error.pwmatch") Passwords don't match
+
     .form-group
       .col-sm-offset-3.col-sm-7
         button.btn.btn-primary(type="submit",ng-click='signupUser()', ng-disabled='!signup.$valid')

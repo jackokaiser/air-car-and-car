@@ -20,8 +20,8 @@
       input#email.form-control(ng-model='user.email' ,type='email', name='email', placeholder='Email', autofocus=true, required)
     .form-group
       label.control-label(for='username') Password
-      input#password.form-control(ng-model='user.password', type='password', name='password', placeholder='Password', required)
+      input#password.form-control(ng-model='user.password', type='password', name='password', placeholder='Password', ng-minlength='4',required)
     .form-group
-      button.btn.btn-primary(type="submit",ng-click='loginUser()', ng-disabled='!signin.$valid')
+      button.btn.btn-primary(type="submit",ng-click='loginUser()')
         i.fa.fa-unlock-alt
         | Login
