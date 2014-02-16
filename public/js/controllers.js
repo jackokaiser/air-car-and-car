@@ -18,7 +18,7 @@ Array.prototype.findIndex = Array.prototype.findIndex ||
     };
 
 angular.module('myApp.controllers', [])
-    .controller('NavCtrl', ['$scope','$location','$http', 'ErrorService',function ($scope,$location, $http, ErrorService) {
+    .controller('NavCtrl', ['$scope','$location','$http', 'ErrorService', '$rootScope',function ($scope,$location, $http, ErrorService, $rootScope) {
         $scope.brand = 'AirCnC';
         $scope.links = [
             {name: 'cars', url: '/cars', authRequired: false},
@@ -30,8 +30,11 @@ angular.module('myApp.controllers', [])
             // get current url
             $scope.url = $location.path();
         };
+        $scope.isLoggedIn = $rootScope.logged;
+        $scope.$watch(function() {return $rootScope.logged;}, function() {
+            $scope.isLoggedIn = $rootScope.logged;
+        });
 
-        $scope.isLoggedIn = true;
 
         // watch path
         // care: isn't property of the scope
@@ -42,6 +45,7 @@ angular.module('myApp.controllers', [])
         $scope.logout = function () {
             $http.get('/logout')
                 .success(function (data, status, headers, config) {
+                    $rootScope.logged = false;
                     console.log('user successfuly loged out');
                     ErrorService.setError('User successfully logged out');
                     $location.path('/login');
@@ -69,7 +73,7 @@ angular.module('myApp.controllers', [])
 
         };
     }])
-    .controller('LoginCtrl', ['$scope','$http','$location',function ($scope,$http,$location) {
+    .controller('LoginCtrl', ['$scope','$http','$location','$rootScope',function ($scope,$http,$location,$rootScope) {
         $scope.loginUser = function() {
             var optionsObj = {
                 method : 'POST',
@@ -78,9 +82,11 @@ angular.module('myApp.controllers', [])
             };
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
+                    $rootScope.logged = true;
                     console.log("login worked fine");
                     $location.path('/cars');
                 }).error(function (data, status, headers, config) {
+                    $rootScope.logged = false;
                     console.log("Error occured while login");
                 });
         };
