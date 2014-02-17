@@ -1,0 +1,9 @@
+.col-sm-8.col-sm-offset-2
+  h1 Editing {{user.email}}
+  form(name='userForm',ng-submit='save()')
+    .col-sm-4
+    .row
+      input(ng-model='user.profile.name') Name:
+      input(ng-model='user.rofile.website') Website:
+      input(ng-model='user.profile.location') Location:
+      input(ng-model='user.profile.gender') Gender:

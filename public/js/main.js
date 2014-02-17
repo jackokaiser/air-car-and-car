@@ -42,6 +42,19 @@ angular.module('myApp', [
                     loggedin : checkLoggedin
                 }
             })
+            .when('/account', {
+                templateUrl: 'partials/account',
+                controller: 'AccountCtrl',
+                resolve : {
+                    loggedin : checkLoggedin
+                }
+            .when('/account/edit', {
+                templateUrl: 'partials/editAccount',
+                controller: 'EditAccountCtrl',
+                resolve : {
+                    loggedin : checkLoggedin
+                }
+            })
             .when('/login', {
                 templateUrl: 'partials/login',
                 controller: 'LoginCtrl'
@@ -55,4 +68,15 @@ angular.module('myApp', [
             });
 
         $locationProvider.html5Mode(true);
-    });
+    })
+    // this code is executed on initialization of angular
+    .run(['$rootScope','$http',function($rootScope,$http) {
+        $http.get('/loggedin').success(function(user) {
+            // Authenticated
+            if (user !== '0')
+                $rootScope.logged = true;
+            // Not Authenticated
+            else
+                $rootScope.logged = false;
+        });
+    }]);

@@ -1,0 +1,12 @@
+.col-sm-8.col-sm-offset-2
+  h1 Profile {{user.email}}
+  .col-sm-4
+    .row
+      p Name: {{user.profile.name}}
+      p Website: {{user.profile.website}}
+      p Location: {{user.profile.location}}
+      p Gender: {{user.profile.gender}}
+
+  .col-sm-4.col-sm-offset-2
+    .row
+      a.btn.btn-primary(href='/account/edit') Edit!

@@ -88,6 +88,7 @@ app.post('/login', userRoutes.postLogin);
 app.get('/loggedin', userRoutes.getLoggedin);
 // log out
 app.get('/logout', userRoutes.logout);
+app.get('/account', passportConf.auth, userRoutes.getAccount);
 // try to sign up user
 app.post('/signup', userRoutes.postSignup);
 

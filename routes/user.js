@@ -98,11 +98,9 @@ exports.getLoggedin = function(req, res) {
  * GET /account
  * Profile page.
  */
-
 exports.getAccount = function(req, res) {
-    res.render('account/profile', {
-        title: 'Account Management'
-    });
+    // send user information
+    res.json({ user : req.user});
 };
 
 /**
