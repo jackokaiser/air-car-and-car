@@ -113,10 +113,12 @@ exports.postAccount = function(req, res, next) {
     User.findById(req.user.id, function(err, user) {
         if (err) return next(err);
         user.email = req.body.email || '';
-        user.profile.name = req.body.profile.name || '';
-        user.profile.gender = req.body.profile.gender || '';
-        user.profile.location = req.body.profile.location || '';
-        user.profile.website = req.body.profile.website || '';
+        if(req.body.profile) {
+            user.profile.name = req.body.profile.name || '';
+            user.profile.gender = req.body.profile.gender || '';
+            user.profile.location = req.body.profile.location || '';
+            user.profile.website = req.body.profile.website || '';
+        }
 
         user.save(function(err) {
             if (err) return next(err);
