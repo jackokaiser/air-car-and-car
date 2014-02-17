@@ -5,7 +5,7 @@
 
 // Demonstrate how to register services
 // In this case it is a simple value service.
-angular.module('myApp.services', [])
+angular.module('myApp.services', ['ngResource'])
     .factory('ErrorService', function() {
         return {
             errorMessage: null,
@@ -17,6 +17,21 @@ angular.module('myApp.services', [])
             }
         };
     })
+    .factory('User', ['$resource',function($resource) {
+        return $resource('/account/:id',{id: '@id'});
+    }])
+    .factory('UserLoader', ['User','$q',function(User,$q) {
+        return function() {
+            var delay = $q.defer();
+            // login is server side, the server knows what data to retrieve
+            User.get({},function(user) {
+                delay.resolve(user);
+            }, function() {
+                delay.reject('Unable to fetch user info');
+            });
+            return delay.promise;
+        };
+    }])
     .config(function($httpProvider) {
         $httpProvider.responseInterceptors.push('errorHttpInterceptor');
     })

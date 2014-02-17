@@ -1,9 +1,26 @@
 .col-sm-8.col-sm-offset-2
   h1 Editing {{user.email}}
-  form(name='userForm',ng-submit='save()')
-    .col-sm-4
-    .row
-      input(ng-model='user.profile.name') Name:
-      input(ng-model='user.rofile.website') Website:
-      input(ng-model='user.profile.location') Location:
-      input(ng-model='user.profile.gender') Gender:
+  .row
+    form(name='userForm')
+      .row
+        .form-group
+          label.col-sm-3.control-label(for='Name') Name
+            input.form-control(ng-model='user.profile.name')
+
+      .row
+        .form-group
+          label.col-sm-3.control-label(for='Website') Website
+            input.form-control(ng-model='user.profile.website')
+      .row
+        .form-group
+          label.col-sm-3.control-label(for='Location') Location
+            input.form-control(ng-model='user.profile.location')
+      .row
+        .form-group
+          label.col-sm-3.control-label(for='Gender') Gender
+            input.form-control(ng-model='user.profile.gender')
+
+      .row
+        .form-group
+          .col-sm-offset-3.col-sm-7
+            button.btn.btn-primary(type="submit",ng-click='save()') Save

@@ -100,7 +100,7 @@ exports.getLoggedin = function(req, res) {
  */
 exports.getAccount = function(req, res) {
     // send user information
-    res.json({ user : req.user});
+    res.json( req.user );
 };
 
 /**
@@ -108,19 +108,20 @@ exports.getAccount = function(req, res) {
  * Update profile information.
  */
 
-exports.postUpdateProfile = function(req, res, next) {
+exports.postAccount = function(req, res, next) {
+    console.log(req.body);
     User.findById(req.user.id, function(err, user) {
         if (err) return next(err);
         user.email = req.body.email || '';
-        user.profile.name = req.body.name || '';
-        user.profile.gender = req.body.gender || '';
-        user.profile.location = req.body.location || '';
-        user.profile.website = req.body.website || '';
+        user.profile.name = req.body.profile.name || '';
+        user.profile.gender = req.body.profile.gender || '';
+        user.profile.location = req.body.profile.location || '';
+        user.profile.website = req.body.profile.website || '';
 
         user.save(function(err) {
             if (err) return next(err);
             console.log('success', { msg: 'Profile information updated.' });
-            res.redirect('/account');
+            res.send(200);
         });
     });
 };

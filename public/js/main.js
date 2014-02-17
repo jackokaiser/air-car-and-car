@@ -14,7 +14,7 @@ var checkLoggedin = function($q, $timeout, $http, $location, $rootScope) {
             $timeout(function(){deferred.reject();}, 0);
             $location.url('/login');
         }
-    })
+    });
 };
 
 // Declare app level module which depends on filters, and services
@@ -46,13 +46,20 @@ angular.module('myApp', [
                 templateUrl: 'partials/account',
                 controller: 'AccountCtrl',
                 resolve : {
-                    loggedin : checkLoggedin
+                    loggedin : checkLoggedin,
+                    user : function(UserLoader) {
+                        return UserLoader();
+                    }
                 }
+            })
             .when('/account/edit', {
                 templateUrl: 'partials/editAccount',
                 controller: 'EditAccountCtrl',
                 resolve : {
-                    loggedin : checkLoggedin
+                    loggedin : checkLoggedin,
+                    user : function(UserLoader) {
+                        return UserLoader();
+                    }
                 }
             })
             .when('/login', {

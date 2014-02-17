@@ -56,39 +56,16 @@ angular.module('myApp.controllers', [])
         };
 
     }])
-    .controller('AccountCtrl', ['$scope','$http', function ($scope,$http) {
-        $http.get('/account')
-                .success(function (data, status, headers, config) {
-                    $scope.user = data.user;
-                }).error(function (data, status, headers, config) {
-                    console.log("Error occured while displaying info");
-                });
-
+    .controller('AccountCtrl', ['$scope','user', function ($scope,user) {
+        $scope.user = user;
     }])
-    .controller('EditAccountCtrl', ['$scope','$http', function ($scope,$http) {
-        var optionsObj = {
-            method : 'POST',
-            url : '/signup',
-            data : $scope.user
-        };
-
+    .controller('EditAccountCtrl', ['$scope','user','$location', function ($scope,user,$location) {
+        $scope.user=user;
         $scope.save = function() {
-            $http(optionsObj)
-                .success(function (data, status, headers, config) {
-                    console.log("Successfuly updated account");
-                    $location.path('/account');
-                }).error(function (data, status, headers, config) {
-                    console.log("Fail updating account");
-                });
-
+            $scope.user.$save(function(usr) {
+                $location.path('/account');
+            });
         }
-        $http.get('/account')
-                .success(function (data, status, headers, config) {
-                    $scope.user = data.user;
-                }).error(function (data, status, headers, config) {
-                    console.log("Error occured while displaying info");
-                });
-
     }])
     .controller('SignupCtrl', ['$scope','$http','$location', function ($scope,$http,$location) {
         $scope.signupUser = function() {
