@@ -1,5 +1,6 @@
 .col-sm-8.col-sm-offset-2
   h1 Editing {{user.email}}
+  br
   .row
     form(name='userForm')
       .row
@@ -17,10 +18,17 @@
             input.form-control(ng-model='user.profile.location')
       .row
         .form-group
-          label.col-sm-3.control-label(for='Gender') Gender
-            input.form-control(ng-model='user.profile.gender')
+          label.col-sm-8.control-label(for='Gender') Gender
+            .row
+              .col-sm-4
+                span Male:
+                input(type='radio',ng-model='user.profile.gender', value='male')
+            .row
+              .col-sm-4
+                span Female:
+                input(type='radio',ng-model='user.profile.gender', value='female')
 
-      .row
-        .form-group
+    .row
+      .form-group
           .col-sm-offset-3.col-sm-7
             button.btn.btn-primary(type="submit",ng-click='save()') Save

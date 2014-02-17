@@ -91,8 +91,8 @@ app.get('/logout', userRoutes.logout);
 // try to sign up user
 app.post('/signup', userRoutes.postSignup);
 
-app.get('/account', passportConf.auth, userRoutes.getAccount);
-app.post('/account', passportConf.auth, userRoutes.postAccount);
+app.get('/api/account', passportConf.auth, userRoutes.getAccount);
+app.post('/api/account', passportConf.auth, userRoutes.postAccount);
 
 
 // app.get('/account', passportConf.isAuthenticated, userRoutes.getAccount);

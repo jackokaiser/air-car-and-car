@@ -1,8 +1,4 @@
-* when user is logged, different behaviour (links,..)
-* how to pass the state through the state
-* when does login change?!
-
-
+* Car model populate user ID
 
 * google map api
 ** address, typeahead ? autocomplete ?

@@ -18,7 +18,7 @@ angular.module('myApp.services', ['ngResource'])
         };
     })
     .factory('User', ['$resource',function($resource) {
-        return $resource('/account/:id',{id: '@id'});
+        return $resource('/api/account/:id',{id: '@id'});
     }])
     .factory('UserLoader', ['User','$q',function(User,$q) {
         return function() {

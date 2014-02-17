@@ -67,7 +67,7 @@ angular.module('myApp.controllers', [])
             });
         }
     }])
-    .controller('SignupCtrl', ['$scope','$http','$location', function ($scope,$http,$location) {
+    .controller('SignupCtrl', ['$scope','$http','$location','$rootScope', function ($scope,$http,$location,$rootScope) {
         $scope.signupUser = function() {
 
             var optionsObj = {
@@ -77,8 +77,10 @@ angular.module('myApp.controllers', [])
             };
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
+                    $rootScope.logged = true;
                     $location.path('/cars');
                 }).error(function (data, status, headers, config) {
+                    $rootScope.logged = false;
                     console.log("Error occured while sign up");
                 });
 
