@@ -119,7 +119,6 @@ angular.module('myApp.controllers', [])
         $scope.cars = cars;
         $scope.carQuery = function ()
         {
-            console.debug($scope.dateRange);
             // drop previous cars
             cars = null;
             // forge query
@@ -152,32 +151,23 @@ angular.module('myApp.controllers', [])
     .controller('MapCtrl', function ($scope) {
         // write Ctrl here
     })
-    .controller('NewCarCtrl',[ '$scope','$http','$location','ErrorService', function ($scope,$http,$location,ErrorService) {
-        $scope.car = car;
+    .controller('NewCarCtrl',[ 'Car','$scope','$http','$location','ErrorService', function (Car,$scope,$http,$location,ErrorService) {
+        // make it a resource
+        $scope.car = new Car(car);
         $scope.addCar = function()
         {
             // in case user added non digit
             $scope.car.price = parseInt($scope.car.price,10);
             $scope.car.dateFrom = $scope.dateRange.dateFrom;
             $scope.car.dateTo = $scope.dateRange.dateTo;
-            car = $scope.car;
+
             // push to server
-            var optionsObj = {
-                method : 'POST',
-                url : '/api/cars',
-                data : $scope.car
-            };
-            $http(optionsObj)
-                .success(function (data, status, headers, config) {
-                    ErrorService.setError('Thanks, the car ' +
-                                          config.data.name +
-                                          ' has been registered!');
-                    $location.path('/account');
-                }).error(function (data, status, headers, config) {
-                    ErrorService.setError('An error has occured while '+
-                                          'registering the car ' +
-                                          config.data.name);
-                });
+            $scope.car.$save();
+            console.log('Car Saved');
+            ErrorService.setError('Thanks, the car ' +
+                                  $scope.car.name +
+                                  ' has been registered!');
+            $location.path('/account');
         };
 
     }]);
