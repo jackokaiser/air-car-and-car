@@ -46,8 +46,7 @@ app.use(express.session({
   store: new MongoStore({
     db: mongoose.connection.db,
     auto_reconnect: true
-  }),
-    cookie : { httpOnly : false }
+  })
 }));
 app.use(passport.initialize());
 app.use(passport.session());

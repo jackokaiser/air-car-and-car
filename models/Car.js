@@ -8,7 +8,12 @@ var carSchema = new mongoose.Schema({
     price : {type : Number, required : true},
     location : {type : String, required : true},
     dateFrom : {type : Date, required : true},
-    dateTo : {type : Date, required : true}
+    dateTo : {type : Date, required : true},
+    createdBy : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User',
+        required : true
+    }
 });
 
 // exports models

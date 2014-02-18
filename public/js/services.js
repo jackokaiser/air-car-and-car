@@ -20,6 +20,9 @@ angular.module('myApp.services', ['ngResource'])
     .factory('User', ['$resource',function($resource) {
         return $resource('/api/account/:id',{id: '@id'});
     }])
+    .factory('Car', ['$resource',function($resource) {
+        return $resource('/api/cars/:id',{id: '@id'});
+    }])
     .factory('UserLoader', ['User','$q',function(User,$q) {
         return function() {
             var delay = $q.defer();
@@ -28,6 +31,18 @@ angular.module('myApp.services', ['ngResource'])
                 delay.resolve(user);
             }, function() {
                 delay.reject('Unable to fetch user info');
+            });
+            return delay.promise;
+        };
+    }])
+    .factory('OwnCarLoader', ['Car','$q',function(Car,$q) {
+        return function() {
+            var delay = $q.defer();
+
+            Car.query({ ownedCar : true },function(car) {
+                delay.resolve(car);
+            }, function() {
+                delay.reject('Unable to fetch own cars');
             });
             return delay.promise;
         };

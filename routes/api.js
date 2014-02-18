@@ -20,12 +20,25 @@ exports.getCars = function (req, res) {
     }
 
     if(query.dateFrom) {
+        // user specified dateFrom
         dbQuery.where('dateFrom')
             .lte(new Date(parseInt(query.dateFrom,10)));
     }
+
     if(query.dateTo) {
+        // user specified dateTo
         dbQuery.where('dateTo')
             .gte(new Date(parseInt(query.dateTo,10)));
+    }
+
+    if(query.createdById) {
+        // user specified only someone's cars
+        dbQuery.where({ createdBy : query.createdById });
+    }
+
+    if(query.ownedCar && req.user && req.user.id) {
+        // user specified only its own car
+        dbQuery.where({ createdBy : req.user.id });
     }
 
     dbQuery.exec(function( err, docs) {
@@ -33,9 +46,7 @@ exports.getCars = function (req, res) {
             console.log('Error fetching data: '+err);
             return;
         }
-        res.json( {
-            cars : docs
-        });
+        res.json( docs  );
         console.log('available car sent: '+docs.length);
     });
 
@@ -50,7 +61,9 @@ exports.postCars = function (req, res) {
         location : req.param('location').toUpperCase(),
         dateFrom : req.param('dateFrom'),
         dateTo : req.param('dateTo'),
-        price : req.param('price')
+        price : req.param('price'),
+        // get id of the user who's sending the request
+        createdBy : req.user.id
     },function(err,car) {
         if (err) {
             console.log('Error saving data: '+err);

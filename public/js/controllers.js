@@ -24,7 +24,7 @@ angular.module('myApp.controllers', [])
             {name: 'cars', url: '/cars', authRequired: false},
             // coming soon
             // {name: 'map', url: '/map'},
-            {name: 'newcar', url: '/newcar', authRequired: true}
+            {name: 'newcar', url: '/newcar', authRequired: false}
         ];
         var updateUrl = function() {
             // get current url
@@ -56,8 +56,10 @@ angular.module('myApp.controllers', [])
         };
 
     }])
-    .controller('AccountCtrl', ['$scope','user', function ($scope,user) {
+    .controller('AccountCtrl', ['$scope','user','cars', function ($scope,user,cars) {
         $scope.user = user;
+        $scope.ownedCars = cars;
+        console.debug(cars);
     }])
     .controller('EditAccountCtrl', ['$scope','user','$location', function ($scope,user,$location) {
         $scope.user=user;
@@ -78,7 +80,7 @@ angular.module('myApp.controllers', [])
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
                     $rootScope.logged = true;
-                    $location.path('/cars');
+                    $location.path('/account');
                 }).error(function (data, status, headers, config) {
                     $rootScope.logged = false;
                     console.log("Error occured while sign up");
@@ -97,7 +99,7 @@ angular.module('myApp.controllers', [])
                 .success(function (data, status, headers, config) {
                     $rootScope.logged = true;
                     console.log("login worked fine");
-                    $location.path('/cars');
+                    $location.path('/account');
                 }).error(function (data, status, headers, config) {
                     $rootScope.logged = false;
                     console.log("Error occured while login");
@@ -114,24 +116,23 @@ angular.module('myApp.controllers', [])
             $location.path('/login');
         });
     }])
-    .controller('CarCtrl', function ($scope, $http) {
+    .controller('CarCtrl', ['$scope','$http','ErrorService', function ($scope, $http, ErrorService) {
         // debugging : get database
         $scope.cars = cars;
         $http({
             method: 'GET',
             url: '/api/cars'
         }).success(function (data, status, headers, config) {
-            data.cars.forEach(function(c) {
+            data.forEach(function(c) {
                 c.dateFrom = Date.parse(c.dateFrom);
                 c.dateTo = Date.parse(c.dateTo);
             });
-            $scope.carsDB = data.cars;
+            $scope.carsDB = data;
 
         }).error(function (data, status, headers, config) {
             throw new Error('Cannot get cars DB!');
         });
 
-        $scope.message = '';
         $scope.carQuery = function ()
         {
             console.debug($scope.dateRange);
@@ -150,13 +151,13 @@ angular.module('myApp.controllers', [])
                 url: '/api/cars',
                 params: query
             }).success(function (data, status, headers, config) {
-                console.log("Success! received %d cars from server", data.cars.length);
-                if (data.cars.length > 0) {
-                    cars = data.cars;
-                    $scope.message = '';
+                console.log("Success! received %d cars from server", data.length);
+                if (data.length > 0) {
+                    cars = data;
+                    ErrorService.clear();
                 }
                 else {
-                    $scope.message = 'Sorry, no car available for that query';
+                    ErrorService.setError('Sorry, no car available for that query');
                 }
                 $scope.cars = cars;
             }).error(function (data, status, headers, config) {
@@ -165,13 +166,11 @@ angular.module('myApp.controllers', [])
                 throw new Error('Cannot get cars!');
             });
         };
-    })
+    }])
     .controller('MapCtrl', function ($scope) {
         // write Ctrl here
     })
-    .controller('NewCarCtrl', function ($scope,$http) {
-        // write Ctrl here
-        $scope.message='';
+    .controller('NewCarCtrl',[ '$scope','$http','$location','ErrorService', function ($scope,$http,$location,ErrorService) {
         $scope.car = car;
         $scope.addCar = function()
         {
@@ -188,13 +187,15 @@ angular.module('myApp.controllers', [])
             };
             $http(optionsObj)
                 .success(function (data, status, headers, config) {
-                    $scope.message = 'Thanks, the car ' + config.data.name +
-                        ' has been registered!';
+                    ErrorService.setError('Thanks, the car ' +
+                                          config.data.name +
+                                          ' has been registered!');
+                    $location.path('/account');
                 }).error(function (data, status, headers, config) {
-                    $scope.message = 'An error has occured while '+
-                        'registering the car ' + config.data.name;
+                    ErrorService.setError('An error has occured while '+
+                                          'registering the car ' +
+                                          config.data.name);
                 });
-            // $location.url('/');
         };
 
-    });
+    }]);

@@ -49,6 +49,9 @@ angular.module('myApp', [
                     loggedin : checkLoggedin,
                     user : function(UserLoader) {
                         return UserLoader();
+                    },
+                    cars : function(OwnCarLoader) {
+                        return OwnCarLoader();
                     }
                 }
             })
