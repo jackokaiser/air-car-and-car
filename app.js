@@ -31,6 +31,8 @@ var month = (day * 30);
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+//// toggle comment for production test
+// app.set('env', 'production');
 
 app.use(require('connect-assets')({
   src: 'public',
@@ -69,7 +71,7 @@ if (app.get('env') === 'development') {
 
 // production only
 if (app.get('env') === 'production') {
-    // TODO
+    // anything special here?
 }
 
 
@@ -79,7 +81,7 @@ if (app.get('env') === 'production') {
 
 // serve index and view partials
 ////// all other routes are handled client side with angular.js
-app.get('/', routes.index);
+app.get('/', routes.index(app.get('env')));
 app.get('/partials/:name', routes.partials);
 
 // try to auth user
@@ -119,7 +121,7 @@ app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedi
 
 
 // redirect all others to the index (HTML5 history)
-app.get('*', routes.index);
+app.get('*', routes.index(app.get('env')));
 
 
 /**

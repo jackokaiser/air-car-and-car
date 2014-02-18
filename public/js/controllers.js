@@ -59,7 +59,6 @@ angular.module('myApp.controllers', [])
     .controller('AccountCtrl', ['$scope','user','cars', function ($scope,user,cars) {
         $scope.user = user;
         $scope.ownedCars = cars;
-        console.debug(cars);
     }])
     .controller('EditAccountCtrl', ['$scope','user','$location', function ($scope,user,$location) {
         $scope.user=user;

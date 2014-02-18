@@ -6,6 +6,12 @@ html(ng-app="myApp")
     title Angular Express Seed App
     != css('styles')
     != js('application')
+
+    // Do not work yet
+    // if env == 'development'
+    //   != js('application')
+    // else if env == 'production'
+    //   != js('application-cdn')
   body
     block navigation
 

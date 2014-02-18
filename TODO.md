@@ -3,9 +3,7 @@
 
 * WTF: no $le and $ge for dates. Find a solution, use moment.js ?
 
-* connect to minify
-** scripts include / cdn when prod
-** gulp to build ?
+* gulp to build ?
 
 * write tests
 
