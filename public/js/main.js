@@ -50,8 +50,8 @@ angular.module('myApp', [
                     user : function(UserLoader) {
                         return UserLoader();
                     },
-                    cars : function(OwnCarLoader) {
-                        return OwnCarLoader();
+                    cars : function(CarLoader) {
+                        return CarLoader({ ownedCar : true });
                     }
                 }
             })

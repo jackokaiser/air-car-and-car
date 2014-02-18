@@ -20,9 +20,6 @@ angular.module('myApp.services', ['ngResource'])
     .factory('User', ['$resource',function($resource) {
         return $resource('/api/account/:id',{id: '@id'});
     }])
-    .factory('Car', ['$resource',function($resource) {
-        return $resource('/api/cars/:id',{id: '@id'});
-    }])
     .factory('UserLoader', ['User','$q',function(User,$q) {
         return function() {
             var delay = $q.defer();
@@ -35,14 +32,17 @@ angular.module('myApp.services', ['ngResource'])
             return delay.promise;
         };
     }])
-    .factory('OwnCarLoader', ['Car','$q',function(Car,$q) {
-        return function() {
+    .factory('Car', ['$resource',function($resource) {
+        return $resource('/api/cars/:id',{id: '@id'});
+    }])
+    .factory('CarLoader', ['Car','$q',function(Car,$q) {
+        return function(queryConstraint) {
             var delay = $q.defer();
 
-            Car.query({ ownedCar : true },function(car) {
-                delay.resolve(car);
+            Car.query(queryConstraint,function(cars) {
+                delay.resolve(cars);
             }, function() {
-                delay.reject('Unable to fetch own cars');
+                delay.reject('Unable to fetch wanted cars');
             });
             return delay.promise;
         };

@@ -115,23 +115,8 @@ angular.module('myApp.controllers', [])
             $location.path('/login');
         });
     }])
-    .controller('CarCtrl', ['$scope','$http','ErrorService', function ($scope, $http, ErrorService) {
-        // debugging : get database
+    .controller('CarCtrl', ['$scope','$http','ErrorService', 'CarLoader', function ($scope, $http, ErrorService, CarLoader) {
         $scope.cars = cars;
-        $http({
-            method: 'GET',
-            url: '/api/cars'
-        }).success(function (data, status, headers, config) {
-            data.forEach(function(c) {
-                c.dateFrom = Date.parse(c.dateFrom);
-                c.dateTo = Date.parse(c.dateTo);
-            });
-            $scope.carsDB = data;
-
-        }).error(function (data, status, headers, config) {
-            throw new Error('Cannot get cars DB!');
-        });
-
         $scope.carQuery = function ()
         {
             console.debug($scope.dateRange);
@@ -143,26 +128,24 @@ angular.module('myApp.controllers', [])
                 dateTo : new Date($scope.dateRange.dateFrom).getTime(),
                 location : $scope.locationQuery
             };
-            console.log(query);
-            // get request to server
-            $http({
-                method: 'GET',
-                url: '/api/cars',
-                params: query
-            }).success(function (data, status, headers, config) {
-                console.log("Success! received %d cars from server", data.length);
-                if (data.length > 0) {
-                    cars = data;
+
+            // promise query
+            CarLoader(query).then(function(carsResource) {
+                console.log("Success! received %d cars from server",
+                            carsResource.length);
+                $scope.cars = carsResource;
+                cars = carsResource;
+                if (carsResource.length > 0) {
                     ErrorService.clear();
                 }
                 else {
-                    ErrorService.setError('Sorry, no car available for that query');
+                    ErrorService.setError('Sorry, no car available '+
+                                          'for that query');
                 }
-                $scope.cars = cars;
-            }).error(function (data, status, headers, config) {
+            }, function(err) {
                 cars = null;
                 $scope.cars = null;
-                throw new Error('Cannot get cars!');
+                throw new Error('Cannot get cars! '+err);
             });
         };
     }])
