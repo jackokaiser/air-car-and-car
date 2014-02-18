@@ -1,5 +1,5 @@
 .row
-  .col-sm-9
+  .col-sm-12
     .row
       .col-xs-1
       form(name='carsQuery', role='form')
@@ -29,14 +29,3 @@
                       span.label.label-danger {{car.price | currency:$}}
                   .col-xs-12
                     p {{car.dateFrom | date:'dd/MM/yyyy'}} - {{car.dateTo | date:'dd/MM/yyyy'}}
-
-
-
-
-  // debug: print the database
-  .col-sm-3.well
-    h4 Database
-    div.well(ng-repeat='car in carsDB')
-      p {{car.name}}
-      p {{car.location}}
-      p {{car.dateFrom | date:'dd/MM/yyyy'}} to {{car.dateTo | date:'dd/MM/yyyy'}}
