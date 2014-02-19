@@ -28,3 +28,7 @@
                 span.label.label-danger {{car.price | currency:$}}
             .col-xs-12
               p {{car.dateFrom | date:'dd/MM/yyyy'}} - {{car.dateTo | date:'dd/MM/yyyy'}}
+            .col-xs-3
+              a.btn.btn-primary(ng-href='/cars/{{car._id}}') View
+            .col-xs-3.col-lg-offset-5
+              a.btn.btn-primary(ng-href='/cars/edit/{{car._id}}') Edit

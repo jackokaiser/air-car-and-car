@@ -31,6 +31,25 @@ angular.module('myApp', [
                 templateUrl: 'partials/cars',
                 controller: 'CarCtrl'
             })
+            .when('/cars/:carId', {
+                templateUrl: 'partials/viewCar',
+                controller: 'ViewCarCtrl',
+                resolve : {
+                    car : function(CarLoaderId) {
+                        return CarLoaderId();
+                    }
+                }
+            })
+            .when('/cars/edit/:carId', {
+                templateUrl: 'partials/newCarForm',
+                controller: 'EditCarCtrl',
+                resolve : {
+                    loggedin : checkLoggedin,
+                    car : function(CarLoaderId) {
+                        return CarLoaderId();
+                    }
+                }
+            })
             .when('/map', {
                 templateUrl: 'partials/maps',
                 controller: 'MapCtrl'

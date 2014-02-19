@@ -3,9 +3,9 @@
 // Models
 
 // the car array
-var cars;
+var localCarArray;
 // the car instance for registration
-var car;
+var localCar;
 
 /* Controllers */
 Array.prototype.findIndex = Array.prototype.findIndex ||
@@ -21,10 +21,10 @@ angular.module('myApp.controllers', [])
     .controller('NavCtrl', ['$scope','$location','$http', 'ErrorService', '$rootScope',function ($scope,$location, $http, ErrorService, $rootScope) {
         $scope.brand = 'AirCnC';
         $scope.links = [
-            {name: 'cars', url: '/cars', authRequired: false},
+            {name: 'Cars', url: '/cars', authRequired: false},
             // coming soon
             // {name: 'map', url: '/map'},
-            {name: 'newcar', url: '/newcar', authRequired: false}
+            {name: 'New car', url: '/newcar', authRequired: false}
         ];
         var updateUrl = function() {
             // get current url
@@ -116,11 +116,11 @@ angular.module('myApp.controllers', [])
         });
     }])
     .controller('CarCtrl', ['$scope','$http','ErrorService', 'CarLoader', function ($scope, $http, ErrorService, CarLoader) {
-        $scope.cars = cars;
+        $scope.cars = localCarArray;
         $scope.carQuery = function ()
         {
             // drop previous cars
-            cars = null;
+            localCarArray = null;
             // forge query
             var query = {
                 dateFrom : new Date($scope.dateRange.dateFrom).getTime(),
@@ -133,7 +133,7 @@ angular.module('myApp.controllers', [])
                 console.log("Success! received %d cars from server",
                             carsResource.length);
                 $scope.cars = carsResource;
-                cars = carsResource;
+                localCarArray = carsResource;
                 if (carsResource.length > 0) {
                     ErrorService.clear();
                 }
@@ -142,7 +142,7 @@ angular.module('myApp.controllers', [])
                                           'for that query');
                 }
             }, function(err) {
-                cars = null;
+                localCarArray = null;
                 $scope.cars = null;
                 throw new Error('Cannot get cars! '+err);
             });
@@ -151,9 +151,30 @@ angular.module('myApp.controllers', [])
     .controller('MapCtrl', function ($scope) {
         // write Ctrl here
     })
+    .controller('ViewCarCtrl',['$scope', 'car', function ($scope,car) {
+        $scope.car = car;
+    }])
+    .controller('EditCarCtrl',['$scope', 'car', 'ErrorService', '$location', function ($scope,car,ErrorService,$location) {
+        $scope.car = car;
+        $scope.addCar = function()
+        {
+            // in case user added non digit
+            $scope.car.price = parseInt($scope.car.price,10);
+            $scope.car.dateFrom = $scope.dateRange.dateFrom;
+            $scope.car.dateTo = $scope.dateRange.dateTo;
+
+            // push to server
+            $scope.car.$save({id : car._id});
+            console.log('Car Saved');
+            ErrorService.setError('Thanks, the car ' +
+                                  $scope.car.name +
+                                  ' has been updated!');
+            $location.path('/account');
+        }
+    }])
     .controller('NewCarCtrl',[ 'Car','$scope','$http','$location','ErrorService', function (Car,$scope,$http,$location,ErrorService) {
         // make it a resource
-        $scope.car = new Car(car);
+        $scope.car = new Car(localCarArray);
         $scope.addCar = function()
         {
             // in case user added non digit

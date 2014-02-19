@@ -1,0 +1,12 @@
+.row
+  .col-sm-5.col-sm-offset-1
+    h1 {{car.name}}
+    h3 {{car.location}}
+    .row
+      .col-sm-6
+        p Available from {{car.dateFrom | date:'dd/MM/yyyy'}} to {{car.dateTo | date:'dd/MM/yyyy'}}
+  .col-sm-6
+    h2 Owned by {{car.createdBy.profile.name}}
+    p {{car.createdBy.email}}
+          
+         

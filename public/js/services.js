@@ -47,6 +47,19 @@ angular.module('myApp.services', ['ngResource'])
             return delay.promise;
         };
     }])
+    .factory('CarLoaderId', ['Car','$q', '$route', function(Car,$q,$route) {
+        return function() {
+            var delay = $q.defer();
+
+            Car.get( { id: $route.current.params.carId },
+                     function(car) {
+                         delay.resolve(car);
+                     }, function() {
+                         delay.reject('Unable to fetch wanted cars');
+                     });
+            return delay.promise;
+        };
+    }])
     .config(function($httpProvider) {
         $httpProvider.responseInterceptors.push('errorHttpInterceptor');
     })
@@ -72,7 +85,11 @@ angular.module('myApp.services', ['ngResource'])
                                     response.status < 500) {
                              ErrorService.setError('Server was unable to '+
                                                    'find what you were looking for... Sorry!');
+                         } else if (response.status === 500) {
+                             ErrorService.setError('Server encountered '+
+                                                   'some issues');
                          }
+
                          return $q.reject(response);
                      });
                  };

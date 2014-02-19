@@ -64,6 +64,7 @@ app.use(function(req, res) {
 });
 
 
+
 // development only
 if (app.get('env') === 'development') {
     app.use(express.errorHandler());
@@ -104,8 +105,12 @@ app.post('/api/account', passportConf.auth, userRoutes.postAccount);
 
 // Our RESTful JSON API
 app.get('/api/cars', api.getCars);
-// secure
+app.get('/api/cars/:id', api.getCarById);
+// post new car --- user need to be logged
 app.post('/api/cars', passportConf.auth, api.postCars);
+// update existing car --- user need to be logged
+//                     --- user need to own the car
+app.post('/api/cars/:id', passportConf.auth, api.postCarById);
 
 /**
  * OAuth routes for sign-in.

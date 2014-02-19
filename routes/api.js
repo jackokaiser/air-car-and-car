@@ -2,6 +2,39 @@ var Car = require('../models/Car');
 var User = require('../models/User');
 
 
+exports.getCarById = function (req, res) {
+    Car.findById(req.params.id, function(err,car) {
+        if (err) {
+            console.log('There was an error retrieving car by id: '+err);
+            res.send(500);
+        }
+        else {
+            if(!car) {
+                // this car doesn't exist: send 404!
+                console.log('Car with id '+req.params.id+' does not exist');
+                res.send(404);
+            }
+            else {
+                // we populate the name field of the owner of the car,
+                // along with contact details
+                var opt = [{
+                    select : 'email profile.name',
+                    path : 'createdBy'
+                }];
+                Car.populate(car,opt,function(err,populatedCar) {
+                    if (err) {
+                        console.log('There was an error retrieving car by id: '+err);
+                        res.send(500);
+                    }
+                    else {
+                        console.log(populatedCar);
+                        res.json( populatedCar );
+                    }
+                });
+            }
+        }
+    });
+};
 exports.getCars = function (req, res) {
     console.log('request for available car received');
     // query db to get car available
@@ -44,12 +77,50 @@ exports.getCars = function (req, res) {
     dbQuery.exec(function( err, docs) {
         if (err) {
             console.log('Error fetching data: '+err);
+            res.send(500);
             return;
         }
         res.json( docs  );
         console.log('available car sent: '+docs.length);
     });
 
+};
+
+exports.postCarById = function (req, res) {
+    // we find the car at the requested id
+    // we ensure that the user who created it
+    // has the same id as the one who is updating it
+    var query = {
+        _id : req.params.id,
+        createdBy : req.user.id
+    };
+
+    var updatedCar = {
+        name : req.param('name').toUpperCase(),
+        location : req.param('location').toUpperCase(),
+        dateFrom : req.param('dateFrom'),
+        dateTo : req.param('dateTo'),
+        price : req.param('price')
+    };
+    Car.findOneAndUpdate(query, updatedCar, {'new':false}, function(err,car) {
+        if (err) {
+            console.log('Error fetching data: '+err);
+            res.send(500);
+            return;
+        }
+        else {
+            if (!car) {
+                // the car didn't exist! tried to hack?!
+                console.log('No car found.. are you sure you are the owner?!');
+                res.send(404);
+
+            }
+            else {
+                console.log('Successful Update');
+                res.send(200);
+            }
+        }
+    });
 };
 
 exports.postCars = function (req, res) {
