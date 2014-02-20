@@ -195,4 +195,9 @@ angular.module('myApp.controllers', [])
             $location.path('/account');
         };
 
+        // $scope.uploadFinished = function(e, data) {
+        //     console.log('We just finished uploading this baby...');
+        // };
+
+
     }]);
