@@ -38,28 +38,60 @@ angular.module('myApp.directives', [])
                     format : 'dd/mm/yy',
                     startDate : 'd'
                 };
+                // view change: update model
                 element.datepicker(optionsObj)
                     .on('changeDate',function(e) {
                         // view triggered change date
                         // let's update the model
                         var oldValue = ngModel.$modelValue || {};
-                        scope.$apply(function() {
-                            // update the datefrom value
-                            if(e.target.name==='dateFrom') {
-                                oldValue.dateFrom = e.date;
-                                ngModel.$setViewValue(oldValue);
-                            }
-                            // update the dateto value
-                            else if(e.target.name==='dateTo') {
-                                oldValue.dateTo = e.date;
-                                ngModel.$setViewValue(oldValue);
-                            }
+                        if(!scope.$$phase) {
+                            scope.$apply(function() {
+                                // update the datefrom value
+                                if(e.target.name==='dateFrom') {
+                                    oldValue.dateFrom = e.date;
+                                    ngModel.$setViewValue(oldValue);
+                                }
+                                // update the dateto value
+                                else if(e.target.name==='dateTo') {
+                                    oldValue.dateTo = e.date;
+                                    ngModel.$setViewValue(oldValue);
+                                }
+                            });
                             // set model validity
                             ngModel.$setValidity('daterange',
                                                  validator(ngModel.$modelValue));
 
-                        });
+                        }
                     });
+
+                ngModel.$render = function() {
+                    // when we render,
+                    // update daterange according to ngModel
+                    // update ngModel according to ngModel
+
+                    // also: can't select a dateFrom before today
+                    //       can't select a dateTo before today+1
+                    var dateFrom = moment(ngModel.$modelValue.dateFrom)
+                        .min(moment());
+                    var dateTo = moment(ngModel.$modelValue.dateTo)
+                        .min(moment().add('d',1));
+
+                    ngModel.$setViewValue( {
+                        dateFrom : dateFrom,
+                        dateTo : dateTo
+                    });
+
+                    element.data('datepicker')
+                        .pickers[0].setDate(
+                            ngModel.$modelValue.dateFrom
+                                .format('DD/MM/YY')
+                        );
+                    element.data('datepicker')
+                        .pickers[1].setDate(
+                            ngModel.$modelValue.dateTo
+                                .format('DD/MM/YY')
+                        );
+                };
             }
         };
     })

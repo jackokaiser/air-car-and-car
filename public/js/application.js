@@ -14,5 +14,6 @@
 //= require lib/bootstrap-datepicker
 //= require lib/angular/angular.min
 //= require lib/angular/angular-resource.min
+//= require lib/moment/min/moment.min.js
 
 //= require air-car-and-car

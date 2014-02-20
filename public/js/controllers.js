@@ -156,6 +156,10 @@ angular.module('myApp.controllers', [])
     }])
     .controller('EditCarCtrl',['$scope', 'car', 'ErrorService', '$location', function ($scope,car,ErrorService,$location) {
         $scope.car = car;
+        $scope.dateRange = {
+            dateFrom : car.dateFrom,
+            dateTo : car.dateTo
+        };
         $scope.addCar = function()
         {
             // in case user added non digit
