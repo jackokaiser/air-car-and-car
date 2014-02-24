@@ -19,5 +19,16 @@
     "underscore": "~1.5.2",
     "express-validator": "~1.0.1",
     "connect-mongo": "~0.4.0"
+  },
+  "devDependencies": {
+        "phantomjs" : "*",
+        "karma" : "*",
+        "karma-junit-reporter" : "*",
+        "karma-jasmine" : "*",
+        "karma-ng-scenario" : "*"
+    },
+  "scripts": {
+    "test": "scripts/test.sh"
   }
+
 }
