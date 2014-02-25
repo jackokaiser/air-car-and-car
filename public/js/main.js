@@ -18,8 +18,23 @@ var checkLoggedin = function($q, $timeout, $http, $location) {
 };
 
 // Declare app level module which depends on filters, and services
+angular.module('init-module', [])
+// This code is tricky to test
+// this code is executed on initialization of angular
+    .run(['$rootScope','$http',function($rootScope,$http) {
+        $http.get('/loggedin').success(function(user) {
+            // Authenticated
+            if (user !== '0')
+                $rootScope.logged = true;
+            // Not Authenticated
+            else
+                $rootScope.logged = false;
+        });
+    }]);
+
 
 angular.module('myApp', [
+    'init-module',
     'myApp.controllers',
     'myApp.filters',
     'myApp.services',
@@ -98,16 +113,3 @@ angular.module('myApp', [
 
         $locationProvider.html5Mode(true);
     });
-// This code is unfortunatly tricky to test
-
-    // // this code is executed on initialization of angular
-    // .run(['$rootScope','$http',function($rootScope,$http) {
-    //     $http.get('/loggedin').success(function(user) {
-    //         // Authenticated
-    //         if (user !== '0')
-    //             $rootScope.logged = true;
-    //         // Not Authenticated
-    //         else
-    //             $rootScope.logged = false;
-    //     });
-    // }]);

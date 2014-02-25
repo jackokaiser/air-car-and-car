@@ -7,6 +7,10 @@ describe('controllers', function(){
 
 
 
+    // mock initialization module
+    // prevent early stage get request
+    angular.module('init-module', function () {});
+
     beforeEach(module('myApp'));
 
     beforeEach(function() {
@@ -18,23 +22,26 @@ describe('controllers', function(){
     });
 
     describe('when user unlogged',function() {
-        beforeEach(inject(function(_$httpBackend_) {
+        var rootScope;
+        beforeEach(inject(function(_$httpBackend_,$rootScope) {
             mockBackend = _$httpBackend_;
             // say, user isn't logged in
             mockBackend.whenGET('/loggedin').respond('0');
+            rootScope=$rootScope;
+            rootScope.logged=false;
         }));
 
         describe('NavCtrl:',function() {
             var location;
-            beforeEach(inject(function($location,$controller,$rootScope,ErrorService) {
+            beforeEach(inject(function($location,$controller,ErrorService) {
                 location = $location;
                 location.path('/cars');
-                $scope=$rootScope.$new();
+                $scope=rootScope.$new();
                 ctrl = $controller('NavCtrl', {
                     $scope : $scope,
                     $location : location,
                     ErrorService : ErrorService,
-                    $rootScope : $rootScope
+                    $rootScope : rootScope
                 });
             }));
 
@@ -50,7 +57,8 @@ describe('controllers', function(){
         });
     });
     describe('when user is logged',function() {
-        beforeEach(inject(function(_$httpBackend_) {
+        var rootScope;
+        beforeEach(inject(function(_$httpBackend_,$rootScope) {
             // we have a fake user
             var user = { "__v" : 0,
                          "_id" : "5302c1116b55df7d11f39181",
@@ -66,16 +74,16 @@ describe('controllers', function(){
 
             mockBackend = _$httpBackend_;
             mockBackend.whenGET('/loggedin').respond(user);
+            rootScope=$rootScope;
+            rootScope.logged=true;
         }));
 
         describe('NavCtrl:',function() {
             var location;
-            var rootScope;
-            beforeEach(inject(function($location,$controller,$rootScope,ErrorService) {
-                rootScope = $rootScope;
+            beforeEach(inject(function($location,$controller,ErrorService) {
                 location = $location;
                 location.path('/cars');
-                $scope=$rootScope.$new();
+                $scope=rootScope.$new();
                 ctrl = $controller('NavCtrl', {
                     $scope : $scope,
                     $location : location,
