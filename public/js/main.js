@@ -1,16 +1,16 @@
 'use strict';
 
-var checkLoggedin = function($q, $timeout, $http, $location, $rootScope) {
+var checkLoggedin = function($q, $timeout, $http, $location) {
     // Initialize a new promise
     var deferred = $q.defer();
     // Make an AJAX call to check if the user is logged in
     $http.get('/loggedin').success(function(user) {
         // Authenticated
-        if (user !== '0')
+        if (user !== '0') {
             $timeout(deferred.resolve, 0);
+        }
         // Not Authenticated
         else {
-            $rootScope.message = 'You need to log in.';
             $timeout(function(){deferred.reject();}, 0);
             $location.url('/login');
         }
@@ -97,15 +97,17 @@ angular.module('myApp', [
             });
 
         $locationProvider.html5Mode(true);
-    })
-    // this code is executed on initialization of angular
-    .run(['$rootScope','$http',function($rootScope,$http) {
-        $http.get('/loggedin').success(function(user) {
-            // Authenticated
-            if (user !== '0')
-                $rootScope.logged = true;
-            // Not Authenticated
-            else
-                $rootScope.logged = false;
-        });
-    }]);
+    });
+// This code is unfortunatly tricky to test
+
+    // // this code is executed on initialization of angular
+    // .run(['$rootScope','$http',function($rootScope,$http) {
+    //     $http.get('/loggedin').success(function(user) {
+    //         // Authenticated
+    //         if (user !== '0')
+    //             $rootScope.logged = true;
+    //         // Not Authenticated
+    //         else
+    //             $rootScope.logged = false;
+    //     });
+    // }]);

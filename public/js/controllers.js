@@ -30,6 +30,8 @@ angular.module('myApp.controllers', [])
             // get current url
             $scope.url = $location.path();
         };
+        // call it directly to update the url
+        updateUrl();
         $scope.isLoggedIn = $rootScope.logged;
         $scope.$watch(function() {return $rootScope.logged;}, function() {
             $scope.isLoggedIn = $rootScope.logged;

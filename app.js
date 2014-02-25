@@ -35,8 +35,8 @@ app.set('view engine', 'jade');
 // app.set('env', 'production');
 
 app.use(require('connect-assets')({
-  src: 'public',
-  helperContext: app.locals
+    src: 'public',
+    helperContext: app.locals
 }));
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -44,23 +44,23 @@ app.use(express.cookieParser());
 app.use(expressValidator());
 app.use(express.methodOverride());
 app.use(express.session({
-  secret: secrets.sessionSecret,
-  store: new MongoStore({
-    db: mongoose.connection.db,
-    auto_reconnect: true
-  })
+    secret: secrets.sessionSecret,
+    store: new MongoStore({
+        db: mongoose.connection.db,
+        auto_reconnect: true
+    })
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) {
-  res.locals.user = req.user;
-  next();
+    res.locals.user = req.user;
+    next();
 });
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: week }));
 app.use(function(req, res) {
-  res.status(404);
-  res.render('404');
+    res.status(404);
+    res.render('404');
 });
 
 
