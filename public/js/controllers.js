@@ -107,11 +107,15 @@ angular.module('myApp.controllers', [])
                 });
         };
     }])
-    .controller('RootCtrl', ['$scope', '$location', 'ErrorService', function ($scope, $location, ErrorService) {
+    .controller('RootCtrl', ['$scope', '$location', 'ErrorService', '$rootScope', function ($scope, $location, ErrorService, $rootScope) {
         $scope.errorService = ErrorService;
         $scope.$watch('ErrorService', function(v) {
             $scope.errorService = ErrorService;
         }, true);
+        $rootScope.$on('$routeChangeStart', function() {
+            ErrorService.clear();
+
+        });
 
         $scope.$on('event:loginRequired', function() {
             $location.path('/login');
@@ -180,7 +184,8 @@ angular.module('myApp.controllers', [])
     }])
     .controller('NewCarCtrl',[ 'Car','$scope','$http','$location','ErrorService', function (Car,$scope,$http,$location,ErrorService) {
         // make it a resource
-        $scope.car = new Car(localCarArray);
+        $scope.car = new Car();
+        // $scope.car = new Car(localCarArray);
         $scope.addCar = function()
         {
             // in case user added non digit
