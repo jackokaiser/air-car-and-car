@@ -86,6 +86,12 @@ exports.getCars = function (req, res) {
 
 };
 
+exports.postCarPicture = function (req, res) {
+    console.log(req.files);
+    res.send(200);
+};
+
+
 exports.postCarById = function (req, res) {
     // we find the car at the requested id
     // we ensure that the user who created it

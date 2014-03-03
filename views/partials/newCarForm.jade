@@ -24,13 +24,15 @@ br
       br
       .row
         h4 Availabilities
-          input(daterange, ng-model='dateRange', required)
-      // br
-      // .row
-      //   h4 Photos
-      //     input#testUpload(type="file", fileupload, name="files[]", data-url="/server/uploadFile", multiple, done="uploadFinished(e, data)")
+        input(daterange, ng-model='dateRange', required)
+      br
 
 br
 .row
   .col-md-1
     button.btn.btn-default(type="submit",ng-click='addCar()', ng-disabled='!addNewCar.$valid') Submit
+
+br
+.row
+  h4 Photos
+  input#testUpload(type="file", fileupload, name="files[]", data-url="/api/cars/picture/", multiple, done="uploadFinished(e, data)")

@@ -108,6 +108,8 @@ app.get('/api/cars', api.getCars);
 app.get('/api/cars/:id', api.getCarById);
 // post new car --- user need to be logged
 app.post('/api/cars', passportConf.auth, api.postCars);
+// Add pictures to an existing car
+app.post('/api/cars/picture/', passportConf.auth, api.postCarPicture);
 // update existing car --- user need to be logged
 //                     --- user need to own the car
 app.post('/api/cars/:id', passportConf.auth, api.postCarById);

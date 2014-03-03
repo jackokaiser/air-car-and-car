@@ -181,6 +181,10 @@ angular.module('myApp.controllers', [])
                                   ' has been updated!');
             $location.path('/account');
         }
+
+        $scope.uploadFinished = function (e, data) {
+            console.log('upload done');
+        };
     }])
     .controller('NewCarCtrl',[ 'Car','$scope','$http','$location','ErrorService', function (Car,$scope,$http,$location,ErrorService) {
         // make it a resource

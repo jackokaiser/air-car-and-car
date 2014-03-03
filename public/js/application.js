@@ -12,8 +12,12 @@
 //= require lib/jquery-1.11.0.min
 //= require lib/bootstrap/bootstrap.min
 //= require lib/bootstrap-datepicker
+//= require lib/jQuery-File-Upload/js/vendor/jquery.ui.widget.js
+//= require lib/jQuery-File-Upload/js/jquery.iframe-transport
+//= require lib/jQuery-File-Upload/js/jquery.fileupload
 //= require lib/angular/angular.min
 //= require lib/angular/angular-resource.min
 //= require lib/moment/min/moment.min.js
+
 
 //= require air-car-and-car
