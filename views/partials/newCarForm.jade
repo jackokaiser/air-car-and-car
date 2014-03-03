@@ -35,4 +35,18 @@ br
 br
 .row
   h4 Photos
-  input#testUpload(type="file", fileupload, name="files[]", data-url="/api/cars/picture/", multiple, done="uploadFinished(e, data)")
+  span.btn.btn-success.fileinput-button
+    i.glyphicon.glyphicon-plus
+    span Select files...
+    input#testUpload(type="file", fileupload, name="files[]", data-url="/api/cars/picture/", multiple, done="uploadFinished(e, data)")
+  br
+  br
+    #progress.progress
+      .progress-bar.progress-bar-success
+    #files.files
+    br
+    .panel.panel-default
+      .panel-heading
+        h5.panel-title Demo Notes
+      .panel-body
+        Demooooooooo!!!!!
